@@ -2,13 +2,12 @@ package com.jdaalba.service.impl;
 
 import static java.util.Objects.requireNonNull;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
+import com.jdaalba.service.SenderService;
+import com.jdaalba.vo.Reservation;
+import java.time.format.DateTimeFormatter;
+import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -17,34 +16,41 @@ import org.thymeleaf.context.Context;
 
 @Component
 @RequiredArgsConstructor
-public class EmailSenderService implements CommandLineRunner {
+@Slf4j
+public class EmailSenderService implements SenderService {
 
   private final JavaMailSenderImpl mailSender;
 
   private final TemplateEngine templateEngine;
 
   @Override
-  public void run(String... args) throws Exception {
+  public void send(Reservation reservation) {
+    log.info("Enviando reserva: {}", reservation);
+    final var ctx = new Context();
+    ctx.setVariable("name", reservation.name());
+    final var dFormat = DateTimeFormatter.ofPattern("dd-MM");
+    final var tFormat = DateTimeFormatter.ofPattern("HH:mm");
+    final var formattedDate = dFormat.format(reservation.at());
+    final var formattedTime = tFormat.format(reservation.at());
 
-    final Context ctx = new Context();
-    ctx.setVariable("name", "Menda Lerenda");
-    ctx.setVariable("subscriptionDate", LocalDateTime.now().toString());
-    ctx.setVariable("hobbies", List.of("Cinema", "Sports", "Music"));
-//    ctx.setVariable("imageResourceName", imageResourceName); // so that we can reference it from HTML
+    ctx.setVariable("name", reservation.name());
+    ctx.setVariable("date", formattedDate);
+    ctx.setVariable("time", formattedTime);
+    ctx.setVariable("numberOfPersons", reservation.numberOfPersons());
 
-    final String htmlContent = this.templateEngine.process("html/confirmacion-reserva.html", ctx);
-//    SimpleMailMessage msg = new SimpleMailMessage(templateMessage);
-//    msg.setTo("jdaalba@gmail.com");
-//    msg.setText(htmlContent);
-//    mailSender.send(msg);
+    final var htmlContent = this.templateEngine.process("html/confirmacion-reserva.html", ctx);
 
-    final var mimeMessage = mailSender.createMimeMessage();
-    final var helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
-    helper.setFrom(requireNonNull(mailSender.getUsername()));
-    helper.setTo("jdaalba@gmail.com");
-    helper.setSubject("Hola mundo");
-    helper.setText(htmlContent, true);
-
-    mailSender.send(mimeMessage);
+    try {
+      final var mimeMessage = mailSender.createMimeMessage();
+      final var helper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+      helper.setFrom(requireNonNull(mailSender.getUsername()));
+      helper.setTo(reservation.email());
+      helper.setSubject("Confirmación de reserva - " + formattedDate);
+      helper.setText(htmlContent, true);
+      mailSender.send(mimeMessage);
+      log.info("Reserva enviada correctamente");
+    } catch (MessagingException e) {
+      log.error("Error en el envío de la confirmación", e);
+    }
   }
 }
