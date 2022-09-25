@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <title>Reservas pendientes</title>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    $(document).on("click",".confirmar", function () {
+      console.log("Confirmando " + $(this).attr("reserva-id"))
+    });
+    $(document).on("click",".rechazar", function () {
+      console.log("Rechazando " + $(this).attr("reserva-id"))
+    });
+  </script>
+</head>
+<body>
+<table>
+  <tr>
+    <th>Cuándo</th>
+    <th>Nombre</th>
+    <th>Teléfono</th>
+    <th>Número de comensales</th>
+    <th>Peticiones</th>
+    <th>Momento de recepción</th>
+    <th>Confirmar</th>
+  </tr>
+  <tr th:each="r:${reservas}">
+    <td th:text="${r.momentoReserva}"></td>
+    <td th:text="${r.nombre}"></td>
+    <td th:text="${r.telefono}"></td>
+    <td th:text="${r.numeroComensales}"></td>
+    <td th:text="${r.peticiones}"></td>
+    <td th:text="${r.fechaRecepcion}"></td>
+    <td>
+      <button class="confirmar" th:attr="reserva-id=${r.id}">Sí</button>
+      <button class="rechazar" th:attr="reserva-id=${r.id}">No</button>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
