@@ -55,5 +55,11 @@
     </td>
   </tr>
 </table>
+
+<a
+    th:each="i : ${#numbers.sequence(0, last, 1)}"
+    th:attr="href='/reservas?pagina=' + ${i}"
+    th:text="${i + 1}" th:class="${i == current} ? selected-true : selected-false "
+></a>
 </body>
 </html>

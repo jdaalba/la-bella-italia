@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,8 +25,8 @@ public record ReservaServiceImpl(
   }
 
   @Override
-  public List<Reserva> buscarPendientesDeConfirmar() {
-    return repository.findAllByConfirmadaFalse();
+  public Page<Reserva> buscarPendientesDeConfirmar(int pagina) {
+    return repository.findAllByConfirmadaFalse(Pageable.ofSize(10).withPage(pagina));
   }
 
   @Override
