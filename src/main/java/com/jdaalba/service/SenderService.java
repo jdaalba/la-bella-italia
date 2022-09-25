@@ -1,8 +1,10 @@
 package com.jdaalba.service;
 
-import com.jdaalba.vo.Reservation;
+import com.jdaalba.entity.Reserva;
 
 public interface SenderService {
 
-  void send(Reservation reservation);
+  void send(Reserva reserva);
+
+  void enviarConfirmacion(Reserva reserva);
 }

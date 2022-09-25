@@ -1,7 +1,6 @@
 package com.jdaalba.controller;
 
-import com.jdaalba.mapper.ReservaMapper;
-import com.jdaalba.request.ReservaRequest;
+import com.jdaalba.entity.Reserva;
 import com.jdaalba.service.ReservaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,9 +21,10 @@ public record ReservasController(ReservaService service) {
   @CrossOrigin
   @PostMapping
   @ResponseBody
-  public String registrarReserva(@RequestBody ReservaRequest reservaRequest) {
-    log.info("Reserva recibida: {}", reservaRequest);
-    service.salvar(ReservaMapper.INSTANCE.from(reservaRequest));
+  public String registrarReserva(@RequestBody Reserva reserva) {
+    log.info("Reserva recibida: {}", reserva);
+//    service.salvar(ReservaMapper.INSTANCE.from(reservaRequest));
+    service.salvar(reserva);
     return "redirect:/";
   }
 
@@ -34,8 +34,19 @@ public record ReservasController(ReservaService service) {
     return "admin/reservas-pendientes.html";
   }
 
-  @PostMapping("/confirmar/{id_reserva}")
-  public void confirmar( @PathVariable("id_reserva") String idReserva) {
+  @CrossOrigin
+  @PostMapping("/{id_reserva}/confirmar")
+  @ResponseBody
+  public void confirmar(@PathVariable("id_reserva") String idReserva) {
     log.info("Confirmando reserva {}", idReserva);
+    service.confirmar(idReserva);
+  }
+
+  @CrossOrigin
+  @PostMapping("/{id_reserva}/rechazar")
+  @ResponseBody
+  public void rechazar(@PathVariable("id_reserva") String idReserva) {
+    log.info("Confirmando reserva {}", idReserva);
+    throw new UnsupportedOperationException("Sin implementar");
   }
 }

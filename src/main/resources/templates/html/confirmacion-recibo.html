@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <title th:remove="all">Confirmación de reservation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <style>
+    p {
+      font-family: Avenir, Helvetica, sans-serif;
+      box-sizing: border-box;
+      font-size: 16px;
+      line-height: 1.5em;
+      margin-top: 0;
+      text-align: left;
+    }
+
+    .fondo {
+      font-family: Avenir, Helvetica, sans-serif;
+      font-size: 16px;
+      background-color: black;
+      box-sizing: border-box;
+      color: #74787e;;
+      padding: 20px;
+
+    }
+
+    .contenedor {
+      padding: 35px;
+      font-family: Avenir, Helvetica, sans-serif;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      border-color: #e8e5ef;
+      border-radius: 2px;
+      border-width: 1px;
+      margin: 0 auto;
+      width: 570px;
+    }
+
+    .remarcado {
+      color: #f44336;
+    }
+
+    img {
+      margin: 10px auto 20px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+<div class="fondo">
+  <div class="contenedor">
+    <h1>Hola <span th:text="${name}">Juan</span></h1>
+    <br>
+    <p>
+      Te confirmamos que hemos recibido tu petición de reserva para el día
+      <span class="remarcado" th:text="${date}">06-06-06</span> a las
+      <span class="remarcado" th:text="${time}">06:06</span>. En breve nos pondremos en contacto
+      contigo.
+    </p>
+    <p>
+      En caso de que quieras cambiar algo de tu reserva, puedes responder a este correo o llamarnos
+      al
+      <span class="remarcado">666-666-666</span>
+    </p>
+    <h3>
+      Hasta pronto
+    </h3>
+    <img alt="pizza-margarita"
+         src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Pizza_Margherita_stu_spivack.jpg/320px-Pizza_Margherita_stu_spivack.jpg">
+  </div>
+</div>
+</body>
+</html>

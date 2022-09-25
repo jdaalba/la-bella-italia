@@ -11,4 +11,6 @@ public interface ReservaService {
   List<Reserva> buscarPendientesDeConfirmar();
 
   List<Reserva> buscar(LocalDate fecha);
+
+  void confirmar(String id);
 }

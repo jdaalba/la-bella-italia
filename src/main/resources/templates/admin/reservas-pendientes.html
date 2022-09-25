@@ -5,12 +5,30 @@
   <meta charset="UTF-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>
-    $(document).on("click",".confirmar", function () {
-      console.log("Confirmando " + $(this).attr("reserva-id"))
+    $(document).on("click", ".confirmar", function () {
+      const id = $(this).attr("reserva-id");
+      console.log("Confirmando " + id);
+      enviar("confirmar", id);
     });
-    $(document).on("click",".rechazar", function () {
-      console.log("Rechazando " + $(this).attr("reserva-id"))
+    $(document).on("click", ".rechazar", function () {
+      const id = $(this).attr("reserva-id");
+      console.log("Rechazando " + id);
+      enviar("rechazar", id);
     });
+
+    function enviar(accion, id) {
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/reservas/" + id + "/" + accion,
+        success: function (data) {
+          console.log("ta to bien");
+          location.reload();
+        },
+        error: function () {
+          alert("Algo ha ido mal...")
+        },
+      })
+    }
   </script>
 </head>
 <body>
@@ -24,7 +42,7 @@
     <th>Momento de recepción</th>
     <th>Confirmar</th>
   </tr>
-  <tr th:each="r:${reservas}">
+  <tr th:each="r:${reservas}" th:attr="id=${r.id}">
     <td th:text="${r.momentoReserva}"></td>
     <td th:text="${r.nombre}"></td>
     <td th:text="${r.telefono}"></td>
