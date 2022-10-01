@@ -7,7 +7,6 @@ import com.jdaalba.service.SenderService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -30,10 +29,11 @@ public record ReservaServiceImpl(
   }
 
   @Override
-  public List<Reserva> buscar(LocalDate fecha) {
-    return repository.findAllByMomentoReservaBetweenAndConfirmadaTrueOrderByMomentoReservaDesc(
-        LocalDateTime.of(fecha, LocalTime.MIN),
-        LocalDateTime.of(fecha, LocalTime.MAX)
+  public Page<Reserva> buscar(LocalDate dia, int pagina) {
+    return repository.findAllByMomentoReservaBetweenAndConfirmadaTrueOrderByMomentoReservaAsc(
+        LocalDateTime.of(dia, LocalTime.MIN),
+        LocalDateTime.of(dia, LocalTime.MAX),
+        Pageable.ofSize(10).withPage(pagina)
     );
   }
 

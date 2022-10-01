@@ -1,9 +1,12 @@
 package com.jdaalba.controller;
 
+import static java.util.Objects.isNull;
+
 import com.jdaalba.entity.Reserva;
+import com.jdaalba.mapper.ReservaDtoMapper;
 import com.jdaalba.service.ReservaService;
+import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,6 +43,21 @@ public record ReservasController(ReservaService service) {
     model.addAttribute("current", pagina);
     model.addAttribute("last", page.getTotalPages() - 1);
     return "admin/reservas-pendientes.html";
+  }
+
+  @GetMapping("/confirmadas")
+  public String buscarReservasConfirmadas(
+      Model model,
+      @RequestParam(name = "pagina", defaultValue = "0") int pagina,
+      @RequestParam(name = "dia", required = false) String fecha
+  ) {
+    final var dia = isNull(fecha) ? LocalDate.now() : LocalDate.parse(fecha);
+    final var page = service.buscar(dia, pagina);
+    model.addAttribute("reservas", page.map(ReservaDtoMapper.INSTACE::from).getContent());
+    model.addAttribute("current", pagina);
+    model.addAttribute("dia", dia);
+    model.addAttribute("last", page.getTotalPages() - 1);
+    return "admin/reservas-confirmadas.html";
   }
 
   @CrossOrigin

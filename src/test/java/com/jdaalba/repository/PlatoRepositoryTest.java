@@ -13,13 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @Disabled
-@SpringBootTest
+//@SpringBootTest
 class PlatoRepositoryTest {
 
   @Autowired
   PlatoRepository platoRepository;
 
-  @Test
+//  @Test
   void test() {
     final List<Plato> platos = Arrays.asList(
         new Plato(

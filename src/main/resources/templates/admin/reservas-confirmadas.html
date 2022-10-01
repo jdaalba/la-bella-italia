@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <title>Reservas pendientes</title>
+  <title>Reservas confirmadas</title>
   <meta charset="UTF-8">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script>
@@ -32,36 +32,29 @@
   </script>
 </head>
 <body>
-<h2>Reservas pendientes</h2>
+<h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
 <table>
   <tr>
-    <th>Cuándo</th>
+    <th>Hora</th>
     <th>Nombre</th>
     <th>Mail</th>
     <th>Teléfono</th>
     <th>Número de comensales</th>
     <th>Peticiones</th>
-    <th>Momento de recepción</th>
-    <th>Confirmar</th>
   </tr>
   <tr th:each="r:${reservas}" th:attr="id=${r.id}">
-    <td th:text="${r.momentoReserva}"></td>
+    <td th:text="${r.hora}"></td>
     <td th:text="${r.nombre}"></td>
     <td th:text="${r.mail}"></td>
     <td th:text="${r.telefono}"></td>
     <td th:text="${r.numeroComensales}"></td>
     <td th:text="${r.peticiones}"></td>
-    <td th:text="${r.fechaRecepcion}"></td>
-    <td>
-      <button class="confirmar" th:attr="reserva-id=${r.id}">Sí</button>
-      <button class="rechazar" th:attr="reserva-id=${r.id}">No</button>
-    </td>
   </tr>
 </table>
 
 <a
     th:each="i : ${#numbers.sequence(0, last, 1)}"
-    th:attr="href='/reservas?pagina=' + ${i}"
+    th:attr="href='/reservas/hoy?pagina=' + ${i}"
     th:text="${i + 1}" th:class="${i == current} ? selected-true : selected-false "
 ></a>
 </body>

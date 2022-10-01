@@ -2,7 +2,6 @@ package com.jdaalba.service;
 
 import com.jdaalba.entity.Reserva;
 import java.time.LocalDate;
-import java.util.List;
 import org.springframework.data.domain.Page;
 
 public interface ReservaService {
@@ -11,7 +10,7 @@ public interface ReservaService {
 
   Page<Reserva> buscarPendientesDeConfirmar(int pagina);
 
-  List<Reserva> buscar(LocalDate fecha);
+  Page<Reserva> buscar(LocalDate dia, int pagina);
 
   void confirmar(String id);
 }
