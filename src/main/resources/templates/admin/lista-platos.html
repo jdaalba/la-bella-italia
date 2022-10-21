@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <title>Platos</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h2>Platos</h2>
+<div th:each="c : ${categorias}">
+  <h3 th:text="${c}"></h3>
+  <table>
+    <tr>
+      <th>Nombre</th>
+      <th>Ingredientes</th>
+      <th>Precio</th>
+      <th>Etiqueta</th>
+    </tr>
+    <tr th:each="p : ${#vars.getVariable(c)}">
+      <td th:text="${p.nombre}"></td>
+      <td th:text="${p.ingredientes}"></td>
+      <td th:text="${p.precio}"></td>
+      <td th:text="${p.etiqueta}"></td>
+      <td>
+        <a th:attr="href='/platos/modificar/' + ${p.id}">Modificar</a>
+      </td>
+    </tr>
+  </table>
+</div>
+<a href="/platos/nuevo">Nuevo plato</a>
+</body>
+</html>
