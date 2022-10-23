@@ -8,11 +8,14 @@ import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/platos")
@@ -49,5 +52,19 @@ public record PlatoController(PlatosService service) {
     model.addAttribute("categorias", Categoria.values());
     model.addAttribute("etiquetas", Etiqueta.values());
     return "admin/platos";
+  }
+
+  @GetMapping("/borrar/{id}")
+  public String getPaginaBorrado(Model model, @PathVariable("id") String id) {
+    // todo: implementar un 404 correcto
+    model.addAttribute("plato", service.buscar(id).orElseThrow());
+    model.addAttribute("accion", "borrar");
+    return "admin/confirmar-plato";
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseBody
+  public void borrarPlato(@PathVariable("id") String id) {
+    log.info("Borrando {}", id);
   }
 }
