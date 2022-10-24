@@ -13,4 +13,6 @@ public interface PlatosService {
   void salvar(Plato plato);
 
   Optional<Plato> buscar(String id);
+
+  void borrar(String id);
 }

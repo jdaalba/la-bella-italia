@@ -3,26 +3,6 @@
 <head>
   <title>Platos</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script>
-    // function confirmBorrado(event) {
-    //   // var del = confirm("¿Estás seguro de que quieres borrar este plato?");
-    //   var source = event.target || event.srcElement;
-    //   console.log(source);
-    //   if (confirm("¿Estás seguro de que quieres borrar este plato?")) {
-    //     alert("Plato borrado - " + source.idPlato)
-    //   // } else {
-    //   //   alert("Record Not Deleted")
-    //   }
-    // }
-    $(".borrar-plato").on('click', function() {
-      var element = this;
-      console.log(this)
-      // $.each(($(this).data('args') || []), function(_,fn) {
-      //   if (fn[0] in window) window[fn[0]].apply(element, fn[1]);
-      // });
-    });
-  </script>
 </head>
 <body>
 <h2>Platos</h2>
@@ -43,8 +23,6 @@
       <td>
         <a th:attr="href='/platos/modificar/' + ${p.id}">Modificar</a>
         <a th:attr="href='/platos/borrar/' + ${p.id}">Borrar</a>
-        <!--        <button th:attr="onclick='confirmBorrado('+${p.id}+')'">Borrar</button>-->
-        <!--        <button th:attr="idPlato=${p.id}" class="borrar-plato">Borrar</button>-->
       </td>
     </tr>
   </table>

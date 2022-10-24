@@ -66,5 +66,6 @@ public record PlatoController(PlatosService service) {
   @ResponseBody
   public void borrarPlato(@PathVariable("id") String id) {
     log.info("Borrando {}", id);
+    service.borrar(id);
   }
 }

@@ -30,6 +30,11 @@ public class PlatosServiceImpl implements PlatosService {
   }
 
   @Override
+  public void borrar(String id) {
+    platoRepository.deleteById(id);
+  }
+
+  @Override
   public Optional<Plato> buscar(String id) {
     return platoRepository.findById(id);
   }
