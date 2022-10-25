@@ -1,6 +1,5 @@
 package com.jdaalba.controller;
 
-import com.jdaalba.constant.Categoria;
 import com.jdaalba.service.PlatosService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,10 +24,9 @@ public class AppController {
 
   @GetMapping
   public String main(Model model) {
-    final var platos = platosService.buscarTodos();
-    model.addAttribute("pizzas", platos.get(Categoria.PIZZAS));
-    model.addAttribute("ensaladas", platos.get(Categoria.ENSALADAS));
-    model.addAttribute("aperitivos", platos.get(Categoria.APERITIVOS));
+    platosService.buscarTodos()
+        .forEach((k, v) -> model.addAttribute(k.name().toLowerCase(), v));
+
     return "index";
   }
 }
