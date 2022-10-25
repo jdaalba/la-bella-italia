@@ -2,9 +2,25 @@
 <html lang="es">
 <head>
   <title>Panel de administración</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      loadDoc("/reservas/confirmadas");
+    });
+
+    function loadDoc(path) {
+      $("#container").load(path);
+    }
+  </script>
 </head>
 <body>
-<h1>Demo</h1>
-<div class="container"></div>
+<div class="w3-bar w3-blue">
+  <a href="#" class="w3-bar-item w3-button" onclick="loadDoc('/reservas/confirmadas');">Reservas confirmadas</a>
+  <a href="#" class="w3-bar-item w3-button" onclick="loadDoc('/reservas');">Reservas pendientes</a>
+  <a href="#" class="w3-bar-item w3-button" onclick="loadDoc('/platos');">Editar menú</a>
+</div>
+<div id="container"></div>
 </body>
 </html>

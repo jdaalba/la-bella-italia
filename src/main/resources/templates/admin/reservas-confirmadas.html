@@ -1,39 +1,31 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <title>Reservas confirmadas</title>
-  <meta charset="UTF-8">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-  <script>
-    $(document).on("click", ".confirmar", function () {
-      const id = $(this).attr("reserva-id");
-      console.log("Confirmando " + id);
-      enviar("confirmar", id);
-    });
-    $(document).on("click", ".rechazar", function () {
-      const id = $(this).attr("reserva-id");
-      console.log("Rechazando " + id);
-      enviar("rechazar", id);
-    });
+<script>
+  $(document).on("click", ".confirmar", function () {
+    const id = $(this).attr("reserva-id");
+    console.log("Confirmando " + id);
+    enviar("confirmar", id);
+  });
+  $(document).on("click", ".rechazar", function () {
+    const id = $(this).attr("reserva-id");
+    console.log("Rechazando " + id);
+    enviar("rechazar", id);
+  });
 
-    function enviar(accion, id) {
-      $.ajax({
-        type: "POST",
-        url: "http://localhost:8080/reservas/" + id + "/" + accion,
-        success: function (data) {
-          console.log("ta to bien");
-          location.reload();
-        },
-        error: function () {
-          alert("Algo ha ido mal...")
-        },
-      })
-    }
-  </script>
-</head>
-<body>
+  function enviar(accion, id) {
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/reservas/" + id + "/" + accion,
+      success: function (data) {
+        console.log("ta to bien");
+        location.reload();
+      },
+      error: function () {
+        alert("Algo ha ido mal...")
+      },
+    })
+  }
+</script>
 <h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
-<table>
+<table class="w3-table-all w3-card-4">
   <tr>
     <th>Hora</th>
     <th>Nombre</th>
@@ -57,5 +49,3 @@
     th:attr="href='/reservas/hoy?pagina=' + ${i}"
     th:text="${i + 1}" th:class="${i == current} ? selected-true : selected-false "
 ></a>
-</body>
-</html>

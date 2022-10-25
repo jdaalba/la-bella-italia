@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="https://www.thymeleaf.org">
-<head>
-  <title>Platos</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-</head>
-<body>
-<h2>Platos</h2>
 <div th:each="c : ${categorias}">
   <h3 th:text="${c}"></h3>
-  <table>
+  <table class="w3-table-all w3-card-4">
     <tr>
       <th>Nombre</th>
       <th>Ingredientes</th>
@@ -21,12 +13,11 @@
       <td th:text="${p.precio}"></td>
       <td th:text="${p.etiqueta}"></td>
       <td>
+        <!-- fixme -->
         <a th:attr="href='/platos/modificar/' + ${p.id}">Modificar</a>
         <a th:attr="href='/platos/borrar/' + ${p.id}">Borrar</a>
       </td>
     </tr>
   </table>
 </div>
-<a href="/platos/nuevo">Nuevo plato</a>
-</body>
-</html>
+<a href="#" onclick="loadDoc('/platos/nuevo');">Nuevo plato</a>
