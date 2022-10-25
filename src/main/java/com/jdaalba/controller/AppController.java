@@ -13,19 +13,9 @@ public class AppController {
 
   private final PlatosService platosService;
 
-  @GetMapping("/greeting")
-  public String greeting(
-      @RequestParam(name = "name", required = false, defaultValue = "World") String name,
-      Model model
-  ) {
-    model.addAttribute("name", name);
-    return "greeting";
-  }
-
   @GetMapping
   public String main(Model model) {
-    platosService.buscarTodos()
-        .forEach((k, v) -> model.addAttribute(k.name().toLowerCase(), v));
+    platosService.buscarTodos().forEach((k, v) -> model.addAttribute(k.name().toLowerCase(), v));
 
     return "index";
   }

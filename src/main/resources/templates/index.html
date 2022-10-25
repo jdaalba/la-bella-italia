@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <title>W3.CSS Template</title>
+  <title>La Bella Italia</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -22,22 +22,21 @@
     $(document).ready(function () {
       $("#enviarReserva").click(function () {
 
-        const array = $("#formReserva").serializeArray(); // Encodes the set of form elements as an array of names and values.
+        const array = $("#formReserva").serializeArray();
         const json = {};
         $.each(array, function () {
           json[this.name] = "" + this.value || "";
         });
-        const serializedJson = JSON.stringify(json);
         $.ajax({
           type: "POST",
-          url: "http://localhost:8080/reservas",
+          url: "/reservas",
           data: JSON.stringify(json),
           contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          success: function (data) {
+          success: function () {
+            $("#enviarReserva").attr('disabled', 'disabled');
           },
           error: function () {
-            // $(".result").append("Error occured");
+            alert("Parece que algo ha ido mal, prueba más tarde...")
           },
         });
       });
@@ -50,9 +49,9 @@
 <div class="w3-top w3-hide-small">
   <div class="w3-bar w3-xlarge w3-black w3-opacity w3-hover-opacity-off" id="myNavbar">
     <a href="#" class="w3-bar-item w3-button">HOME</a>
-    <a href="#menu" class="w3-bar-item w3-button">MENU</a>
-    <a href="#about" class="w3-bar-item w3-button">ABOUT</a>
-    <a href="#myMap" class="w3-bar-item w3-button">CONTACT</a>
+    <a href="#menu" class="w3-bar-item w3-button">MENÚ</a>
+    <a href="#acerca" class="w3-bar-item w3-button">ACERCA</a>
+    <a href="#contacto" class="w3-bar-item w3-button">CONTACTO</a>
   </div>
 </div>
 
@@ -62,9 +61,9 @@
     <span class="w3-tag w3-xlarge">Open from 10am to 12pm</span>
   </div>
   <div class="w3-display-middle w3-center">
-    <span class="w3-text-white w3-hide-small" style="font-size:100px">thin<br>CRUST PIZZA</span>
-    <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>thin<br>CRUST PIZZA</b></span>
-    <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Let me see the menu</a></p>
+    <span class="w3-text-white w3-hide-small" style="font-size:100px"><b>La<br>Bella <span class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></span>
+    <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>La<br>Bella Italia</b></span>
+    <p><a href="#menu" class="w3-button w3-xxlarge w3-black">Enséñame el menú</a></p>
   </div>
 </header>
 
@@ -72,7 +71,7 @@
 <div class="w3-container w3-black w3-padding-64 w3-xxlarge" id="menu">
   <div class="w3-content">
 
-    <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">THE MENU</h1>
+    <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">El menú</h1>
     <div class="w3-row w3-center w3-border w3-border-dark-grey">
       <a href="javascript:void(0)" onclick="openMenu(event, 'Pizza');" id="myLink">
         <div class="w3-col s4 tablink w3-padding-large w3-hover-red">Pizza</div>
@@ -137,7 +136,7 @@
 </div>
 
 <!-- About Container -->
-<div class="w3-container w3-padding-64 w3-red w3-grayscale w3-xlarge" id="about">
+<div class="w3-container w3-padding-64 w3-red w3-grayscale w3-xlarge" id="acerca">
   <div class="w3-content">
     <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">About</h1>
     <p>The Pizza Restaurant was founded in blabla by Mr. Italiano in lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -164,7 +163,7 @@
 </div>
 
 <!-- Image of location/map -->
-<img src="https://www.w3schools.com/w3images/map.jpg" class="w3-image w3-greyscale" style="width:100%;" id="myMap">
+<img src="https://www.w3schools.com/w3images/map.jpg" class="w3-image w3-greyscale" style="width:100%;" id="contacto">
 <!--<img src="/w3images/map.jpg" class="w3-image w3-greyscale" style="width:100%;" id="myMap">-->
 
 <!-- Contact -->
