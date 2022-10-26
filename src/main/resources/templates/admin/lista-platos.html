@@ -1,22 +1,23 @@
 <div th:each="c : ${categorias}">
-  <h3 th:text="${c}"></h3>
+  <h3 th:text="${c}"></h3><br/>
   <table class="w3-table-all w3-card-4">
-    <tr>
-      <th>Nombre</th>
-      <th>Ingredientes</th>
-      <th>Precio</th>
-      <th>Etiqueta</th>
+    <tr class=" w3-row">
+      <th class="w3-col m3">Nombre</th>
+      <th class="w3-col m3">Ingredientes</th>
+      <th class="w3-col m2">Precio</th>
+      <th class="w3-col m2">Etiqueta</th>
+      <th class="w3-col m2"></th>
     </tr>
-    <tr th:each="p : ${#vars.getVariable(c)}">
-      <td th:text="${p.nombre}"></td>
-      <td>
+    <tr th:each="p : ${#vars.getVariable(c)}" class="w3-row">
+      <td class="w3-col m3" th:text="${p.nombre}"></td>
+      <td class="w3-col m3">
         <ul th:each="i : ${p.ingredientes}" class="w3-ul">
           <li th:text="${i}"></li>
         </ul>
       </td>
-      <td th:text="${p.precio}"></td>
-      <td th:text="${p.etiqueta}"></td>
-      <td>
+      <td class="w3-col m2" th:text="${p.precio} + ' €'"></td>
+      <td class="w3-col m2" th:text="${p.etiqueta}"></td>
+      <td class="w3-col m2">
         <button class="w3-button w3-blue" th:attr="id-plato=${p.id}" onclick="modificar(this);">
           Modificar
         </button>
@@ -25,17 +26,18 @@
       </td>
     </tr>
   </table>
-  <script>
-    function modificar(elem) {
-      console.log(elem);
-      loadDoc('/platos/modificar/' + elem.getAttribute('id-plato'));
-    }
-
-    function borrar(elem) {
-      console.log(elem);
-      loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
-    }
-  </script>
+  <br/>
 </div>
 <br/>
 <button class="w3-button w3-blue w3-block" onclick="loadDoc('/platos/nuevo');">Nuevo plato</button>
+<script>
+  function modificar(elem) {
+    console.log(elem);
+    loadDoc('/platos/modificar/' + elem.getAttribute('id-plato'));
+  }
+
+  function borrar(elem) {
+    console.log(elem);
+    loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
+  }
+</script>
