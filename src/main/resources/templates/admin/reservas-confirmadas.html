@@ -25,7 +25,11 @@
   }
 </script>
 <h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
-<table class="w3-table-all w3-card-4">
+<div class="w3-display-container" th:if="${#lists.isEmpty(reservas)}">
+<!--  <img src="/images/empty-list.jpg" alt="sin resultados" class="w3-image"/>-->
+  <div class="ww3-display-topmiddle w3-xxlarge">Parece que no hay reservas</div>
+</div>
+<table class="w3-table-all w3-card-4" th:if="${not #lists.isEmpty(reservas)}">
   <tr>
     <th>Hora</th>
     <th>Nombre</th>
