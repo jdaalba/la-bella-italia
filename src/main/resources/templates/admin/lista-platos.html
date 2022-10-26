@@ -13,11 +13,24 @@
       <td th:text="${p.precio}"></td>
       <td th:text="${p.etiqueta}"></td>
       <td>
-        <!-- fixme -->
-        <a th:attr="href='/platos/modificar/' + ${p.id}">Modificar</a>
-        <a th:attr="href='/platos/borrar/' + ${p.id}">Borrar</a>
+        <button class="w3-button w3-blue" th:attr="id-plato=${p.id}" onclick="modificar(this);">
+          Modificar
+        </button>
+        <button class="w3-button w3-red" th:attr="id-plato=${p.id}" onclick="borrar(this);">Borrar
+        </button>
       </td>
     </tr>
   </table>
+  <script>
+    function modificar(elem) {
+      console.log(elem);
+      loadDoc('/platos/modificar/' + elem.getAttribute('id-plato'));
+    }
+
+    function borrar(elem) {
+      console.log(elem);
+      loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
+    }
+  </script>
 </div>
 <a href="#" onclick="loadDoc('/platos/nuevo');">Nuevo plato</a>
