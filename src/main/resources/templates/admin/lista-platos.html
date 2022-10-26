@@ -9,7 +9,11 @@
     </tr>
     <tr th:each="p : ${#vars.getVariable(c)}">
       <td th:text="${p.nombre}"></td>
-      <td th:text="${p.ingredientes}"></td>
+      <td>
+        <ul th:each="i : ${p.ingredientes}">
+          <li th:text="${i}"></li>
+        </ul>
+      </td>
       <td th:text="${p.precio}"></td>
       <td th:text="${p.etiqueta}"></td>
       <td>
@@ -33,4 +37,5 @@
     }
   </script>
 </div>
-<a href="#" onclick="loadDoc('/platos/nuevo');">Nuevo plato</a>
+<br/>
+<button class="w3-button w3-blue w3-block" onclick="loadDoc('/platos/nuevo');">Nuevo plato</button>
