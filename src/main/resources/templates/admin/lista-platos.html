@@ -10,7 +10,7 @@
     <tr th:each="p : ${#vars.getVariable(c)}">
       <td th:text="${p.nombre}"></td>
       <td>
-        <ul th:each="i : ${p.ingredientes}">
+        <ul th:each="i : ${p.ingredientes}" class="w3-ul">
           <li th:text="${i}"></li>
         </ul>
       </td>
