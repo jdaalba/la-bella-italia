@@ -19,14 +19,20 @@
     <td th:text="${r.peticiones}"></td>
     <td th:text="${r.fechaRecepcion}"></td>
     <td>
-      <button class="confirmar" th:attr="reserva-id=${r.id}">Sí</button>
-      <button class="rechazar" th:attr="reserva-id=${r.id}">No</button>
+      <button class="confirmar w3-button w3-blue" th:attr="reserva-id=${r.id}">Sí</button>
+      <button class="rechazar w3-button w3-red" th:attr="reserva-id=${r.id}">No</button>
     </td>
   </tr>
 </table>
 
-<a
-    th:each="i : ${#numbers.sequence(0, last, 1)}"
-    th:attr="href='/reservas?pagina=' + ${i}"
-    th:text="${i + 1}" th:class="${i == current} ? selected-true : selected-false "
-></a>
+<div class="w3-bar">
+  <button th:each="i : ${#numbers.sequence(0, last, 1)}"
+          th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
+          th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPagina(this)"></button>
+</div>
+
+<script>
+  function saltaPagina(elem) {
+    loadDoc('/reservas?pagina=' + elem.getAttribute("pag"));
+  }
+</script>
