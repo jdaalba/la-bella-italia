@@ -26,7 +26,6 @@
 </script>
 <h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
 <div class="w3-display-container" th:if="${#lists.isEmpty(reservas)}">
-<!--  <img src="/images/empty-list.jpg" alt="sin resultados" class="w3-image"/>-->
   <div class="ww3-display-topmiddle w3-xxlarge">Parece que no hay reservas</div>
 </div>
 <table class="w3-table-all w3-card-4" th:if="${not #lists.isEmpty(reservas)}">
@@ -47,9 +46,11 @@
     <td th:text="${r.peticiones}"></td>
   </tr>
 </table>
-
-<a
-    th:each="i : ${#numbers.sequence(0, last, 1)}"
-    th:attr="href='/reservas/hoy?pagina=' + ${i}"
-    th:text="${i + 1}" th:class="${i == current} ? selected-true : selected-false "
-></a>
+<br/>
+<div class="w3-content">
+  <div class="w3-bar w3-center">
+    <button th:each="i : ${#numbers.sequence(0, last, 1)}"
+            th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
+            th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPagina(this)"></button>
+  </div>
+</div>

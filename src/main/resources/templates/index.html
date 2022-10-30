@@ -178,7 +178,7 @@
       <p><input class="w3-input w3-padding-16 w3-border" type="text" name="mail" placeholder="Tu mail" required></p>
       <p><input class="w3-input w3-padding-16 w3-border" type="text" name="telefono" placeholder="Tu teléfono"></p>
       <p><input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales" placeholder="¿Cuántos seréis?" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva" placeholder="¿Cuándo será?" required value="2020-11-16T20:00"></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva" placeholder="¿Cuándo será?" required th:attr="value=${fecha}"></p>
       <p><input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones" placeholder="Algo que debamos saber"></p>
       <p><button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar</button></p>
     </form>
