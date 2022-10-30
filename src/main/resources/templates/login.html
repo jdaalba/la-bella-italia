@@ -1,20 +1,29 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3" lang="es">
 <head>
-  <title>Spring Security Example </title>
+  <title>Admin - La Bella Italia</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
+  <style>h1 {font-family: "Amatic SC", sans-serif}</style>
 </head>
-<body>
-<div th:if="${param.error}">
-  Invalid username and password.
+<body class="w3-black">
+<div class="w3-content w3-center">
+  <h1 class="w3-text-white w3-hide-small" style="font-size:100px"><b>La Bella <span class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></h1>
+  <div th:if="${param.logout}">
+    Has cerrado sesión.
+  </div>
+  <div th:if="${param.error}" class="w3-text-red">
+    Usuario y contraseña inválidos.
+  </div>
+  <form th:action="@{/login}" method="post">
+    <input class="w3-input w3-animate-input" type="text" name="username" placeholder="Usuario"/>
+    <br>
+    <input class="w3-input w3-animate-input"  type="password" name="password" placeholder="Contraseña"/>
+    <br>
+    <div><input class="w3-button w3-red w3-block w3-hover-green" type="submit" value="Acceder"/></div>
+  </form>
 </div>
-<div th:if="${param.logout}">
-  You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-  <div><label> User Name : <input type="text" name="username"/> </label></div>
-  <div><label> Password: <input type="password" name="password"/> </label></div>
-  <div><input type="submit" value="Sign In"/></div>
-</form>
 </body>
 </html>
