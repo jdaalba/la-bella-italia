@@ -6,6 +6,7 @@ import com.jdaalba.entity.Reserva;
 import com.jdaalba.mapper.ReservaDtoMapper;
 import com.jdaalba.service.ReservaService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,6 @@ public record ReservasController(ReservaService service) {
   @ResponseBody
   public String registrarReserva(@RequestBody Reserva reserva) {
     log.info("Reserva recibida: {}", reserva);
-//    service.salvar(ReservaMapper.INSTANCE.from(reservaRequest));
     service.salvar(reserva);
     return "redirect:/";
   }
@@ -57,6 +57,7 @@ public record ReservasController(ReservaService service) {
     model.addAttribute("current", pagina);
     model.addAttribute("dia", dia);
     model.addAttribute("last", page.getTotalPages() - 1);
+    model.addAttribute("fecha", LocalDateTime.now());
     return "admin/reservas-confirmadas.html";
   }
 

@@ -1,4 +1,27 @@
 <script>
+  $(document).ready(function (){
+    $("#enviarReserva").click(function () {
+
+      const array = $("#formReserva").serializeArray();
+      const json = {};
+      $.each(array, function () {
+        json[this.name] = "" + this.value || "";
+      });
+      $.ajax({
+        type: "POST",
+        url: "/reservas",
+        data: JSON.stringify(json),
+        contentType: "application/json; charset=utf-8",
+        success: function () {
+          // $("#enviarReserva").attr('disabled', 'disabled');
+          cerrarModal();
+        },
+        error: function () {
+          alert("Parece que algo ha ido mal, prueba más tarde...")
+        },
+      });
+    });
+  });
   $(document).on("click", ".confirmar", function () {
     const id = $(this).attr("reserva-id");
     console.log("Confirmando " + id);
@@ -31,6 +54,10 @@
   function saltaPaginaConf(elem) {
     loadDoc("/reservas/confirmadas?dia=" + $("#dia-seleccionado").text()
         + "&pagina=" + elem.getAttribute("pag"));
+  }
+
+  function cerrarModal() {
+    document.getElementById('id01').style.display='none'
   }
 </script>
 <div class="w3-row">
@@ -69,5 +96,29 @@
     <button th:each="i : ${#numbers.sequence(0, last, 1)}"
             th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
             th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPaginaConf(this)"></button>
+  </div>
+</div>
+<br>
+<button onclick="document.getElementById('id01').style.display='block'"
+        class="w3-button w3-blue w3-block">Nueva reserva
+</button>
+<div id="id01" class="w3-modal w3-animate-opacity">
+  <div class="w3-modal-content w3-card-4">
+    <header class="w3-container w3-blue">
+        <span onclick="cerrarModal();"
+              class="w3-button w3-large w3-display-topright">&times;</span>
+      <h2>Nueva reserva</h2>
+    </header>
+    <div class="w3-container">
+      <form id="formReserva">
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="nombre" placeholder="Nombre" required></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="mail" placeholder="Mail" required></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="telefono" placeholder="Teléfono"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales" placeholder="¿Cuántos serán?" required></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva" placeholder="¿Cuándo será?" required th:attr="value=${fecha}"></p>
+        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones" placeholder="Algo que debamos saber"></p>
+        <p><button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar</button></p>
+      </form>
+    </div>
   </div>
 </div>
