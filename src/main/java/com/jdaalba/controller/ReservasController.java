@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -59,6 +60,23 @@ public record ReservasController(ReservaService service) {
     model.addAttribute("last", page.getTotalPages() - 1);
     model.addAttribute("fecha", LocalDateTime.now());
     return "admin/reservas-confirmadas.html";
+  }
+
+  @GetMapping("/confirmadas/{id}")
+  @ResponseBody
+  public Reserva buscarReserva(@PathVariable("id") String id) {
+    log.info("Buscando reserva con id '{}'", id);
+    return service.buscar(id);
+  }
+
+  @PutMapping("/{id}")
+  @ResponseBody
+  public void modificar(@PathVariable("id") String id, @RequestBody Reserva reserva) {
+    log.info("Modificando reserva '{}' con id '{}'", reserva, id);
+    assert id.equals(reserva.getId());
+    // si no existe la reserva, lanza una excepción
+    service.buscar(id);
+    service.salvar(reserva);
   }
 
   @CrossOrigin

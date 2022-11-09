@@ -1,5 +1,5 @@
 <script>
-  $(document).ready(function (){
+  $(document).ready(function () {
     $("#enviarReserva").click(function () {
 
       const array = $("#formReserva").serializeArray();
@@ -7,14 +7,19 @@
       $.each(array, function () {
         json[this.name] = "" + this.value || "";
       });
+      json["confirmada"] = $("#fconf").prop("checked");
+      const id = $("#fid").val();
+      json["id"] = id;
+      console.log("### " + JSON.stringify(json));
+      const method = id != null && id !== "" ? "PUT" : "POST";
       $.ajax({
-        type: "POST",
-        url: "/reservas",
+        type: method,
+        url: "/reservas/" + id,
         data: JSON.stringify(json),
         contentType: "application/json; charset=utf-8",
         success: function () {
-          // $("#enviarReserva").attr('disabled', 'disabled');
           cerrarModal();
+          recuperarReservas();
         },
         error: function () {
           alert("Parece que algo ha ido mal, prueba más tarde...")
@@ -32,15 +37,20 @@
     console.log("Rechazando " + id);
     enviar("rechazar", id);
   });
+
+  function recuperarReservas() {
+    loadDoc("/reservas/confirmadas?dia=" + $("#sel-dia").val());
+  }
+
   // recuperarReservas
   $(document).on("click", "#buscar-dia", function () {
-    loadDoc("/reservas/confirmadas?dia=" + $("#sel-dia").val());
+    recuperarReservas();
   });
 
   function enviar(accion, id) {
     $.ajax({
       type: "POST",
-      url: "http://localhost:8080/reservas/" + id + "/" + accion,
+      url: "/reservas/" + id + "/" + accion,
       success: function (data) {
         console.log("ta to bien");
         location.reload();
@@ -57,7 +67,48 @@
   }
 
   function cerrarModal() {
-    document.getElementById('id01').style.display='none'
+    document.getElementById('id01').style.display = 'none'
+    $("#fid").val(null);
+    $("#fnombre").val(null);
+    $("#fmail").val(null);
+    $("#ftelf").val(null);
+    $("#fcom").val(null);
+    $("#fmres").val(null);
+    $("#fpet").val(null);
+    $("#fconf").prop("checked", false);
+  }
+
+  function abrirModal() {
+    document.getElementById('id01').style.display = 'block'
+  }
+
+  function modificarReserva(elem) {
+    $.ajax({
+      type: "GET",
+      url: "/reservas/confirmadas/" + elem.getAttribute('id-reserva'),
+      success: function (data) {
+        rellenarFormulario(data);
+        abrirModal();
+      },
+      error: function () {
+        alert("Reserva no encontrada")
+      },
+    })
+  }
+
+  function rellenarFormulario(data) {
+    console.log("@@@ data " + JSON.stringify(data));
+    $("#fid").val(data.id);
+    $("#fnombre").val(data.nombre);
+    $("#fmail").val(data.mail);
+    $("#ftelf").val(data.telefono);
+    $("#fcom").val(data.numeroComensales);
+    $("#fmres").val(data.momentoReserva);
+    $("#fpet").val(data.peticiones);
+    $("#fconf").prop("checked", data.confirmada);
+  }
+
+  function borrarReserva(elem) {
   }
 </script>
 <div class="w3-row">
@@ -80,6 +131,7 @@
     <th>Teléfono</th>
     <th>Número de comensales</th>
     <th>Peticiones</th>
+    <th></th>
   </tr>
   <tr th:each="r:${reservas}" th:attr="id=${r.id}">
     <td th:text="${r.hora}"></td>
@@ -88,6 +140,14 @@
     <td th:text="${r.telefono}"></td>
     <td th:text="${r.numeroComensales}"></td>
     <td th:text="${r.peticiones}"></td>
+    <td>
+      <button class="w3-button w3-blue" th:attr="id-reserva=${r.id}"
+              onclick="modificarReserva(this);">
+        Modificar
+      </button>
+      <button class="w3-button w3-red" th:attr="id-reserva=${r.id}" onclick="borrar(this);">Borrar
+      </button>
+    </td>
   </tr>
 </table>
 <br/>
@@ -99,7 +159,7 @@
   </div>
 </div>
 <br>
-<button onclick="document.getElementById('id01').style.display='block'"
+<button onclick="abrirModal()"
         class="w3-button w3-blue w3-block">Nueva reserva
 </button>
 <div id="id01" class="w3-modal w3-animate-opacity">
@@ -111,13 +171,28 @@
     </header>
     <div class="w3-container">
       <form id="formReserva">
-        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="nombre" placeholder="Nombre" required></p>
-        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="mail" placeholder="Mail" required></p>
-        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="telefono" placeholder="Teléfono"></p>
-        <p><input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales" placeholder="¿Cuántos serán?" required></p>
-        <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva" placeholder="¿Cuándo será?" required th:attr="value=${fecha}"></p>
-        <p><input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones" placeholder="Algo que debamos saber"></p>
-        <p><button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar</button></p>
+        <input id="fid" type="text" disabled hidden>
+        <p><input id="fnombre" class="w3-input w3-padding-16 w3-border" type="text" name="nombre"
+                  placeholder="Nombre" required></p>
+        <p><input id="fmail" class="w3-input w3-padding-16 w3-border" type="text" name="mail"
+                  placeholder="Mail" required></p>
+        <p><input id="ftelf" class="w3-input w3-padding-16 w3-border" type="text" name="telefono"
+                  placeholder="Teléfono"></p>
+        <p><input id="fcom" class="w3-input w3-padding-16 w3-border" type="number"
+                  name="numeroComensales" placeholder="¿Cuántos serán?" required></p>
+        <p><input id="fmres" class="w3-input w3-padding-16 w3-border" type="datetime-local"
+                  name="momentoReserva" placeholder="¿Cuándo será?" required
+                  th:attr="value=${fecha}"></p>
+        <p><input id="fpet" class="w3-input w3-padding-16 w3-border" type="text" name="peticiones"
+                  placeholder="Algo que debamos saber"></p>
+        <p><label for="fconf">Confirmada: </label><input id="fconf"
+                                                         class="w3-input w3-padding-16 w3-border"
+                                                         type="checkbox" name="confirmada"
+                                                         placeholder="Confirmada"></p>
+        <p>
+          <button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar
+          </button>
+        </p>
       </form>
     </div>
   </div>

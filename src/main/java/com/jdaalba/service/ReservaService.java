@@ -13,4 +13,6 @@ public interface ReservaService {
   Page<Reserva> buscar(LocalDate dia, int pagina);
 
   void confirmar(String id);
+
+  Reserva buscar(String id);
 }
