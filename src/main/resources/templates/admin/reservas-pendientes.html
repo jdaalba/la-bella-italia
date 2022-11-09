@@ -22,8 +22,8 @@
     <td th:text="${r.peticiones}"></td>
     <td th:text="${r.fechaRecepcion}"></td>
     <td>
-      <button class="confirmar w3-button w3-blue" th:attr="reserva-id=${r.id}">Sí</button>
-      <button class="rechazar w3-button w3-red" th:attr="reserva-id=${r.id}">No</button>
+      <button class="confirmar w3-button w3-blue" th:attr="onclick='conres(\'' + ${r.id} + '\');'">Sí</button>
+      <button class="rechazar w3-button w3-red" th:attr="onclick='canres(\'' + ${r.id} + '\');'">No</button>
     </td>
   </tr>
 </table>
@@ -39,4 +39,26 @@
   function saltaPagina(elem) {
     loadDoc('/reservas?pagina=' + elem.getAttribute("pag"));
   }
+
+  function conres(id) {
+    enviar("confirmar", id);
+  }
+
+  function canres(id) {
+    enviar("rechazar", id);
+  }
+
+  function enviar(accion, id) {
+    $.ajax({
+      type: "POST",
+      url: "/reservas/" + id + "/" + accion,
+      success: function (data) {
+        loadDoc("/reservas")
+      },
+      error: function () {
+        alert("Algo ha ido mal...")
+      },
+    })
+  }
+
 </script>

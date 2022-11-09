@@ -32,12 +32,10 @@
 <button class="w3-button w3-blue w3-block" onclick="loadDoc('/platos/nuevo');">Nuevo plato</button>
 <script>
   function modificar(elem) {
-    console.log(elem);
     loadDoc('/platos/modificar/' + elem.getAttribute('id-plato'));
   }
 
   function borrar(elem) {
-    console.log(elem);
     loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
   }
 </script>

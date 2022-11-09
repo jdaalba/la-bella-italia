@@ -10,7 +10,6 @@
       json["confirmada"] = $("#fconf").prop("checked");
       const id = $("#fid").val();
       json["id"] = id;
-      console.log("### " + JSON.stringify(json));
       const method = id != null && id !== "" ? "PUT" : "POST";
       $.ajax({
         type: method,
@@ -27,16 +26,6 @@
       });
     });
   });
-  $(document).on("click", ".confirmar", function () {
-    const id = $(this).attr("reserva-id");
-    console.log("Confirmando " + id);
-    enviar("confirmar", id);
-  });
-  $(document).on("click", ".rechazar", function () {
-    const id = $(this).attr("reserva-id");
-    console.log("Rechazando " + id);
-    enviar("rechazar", id);
-  });
 
   function recuperarReservas() {
     loadDoc("/reservas/confirmadas?dia=" + $("#sel-dia").val());
@@ -46,20 +35,6 @@
   $(document).on("click", "#buscar-dia", function () {
     recuperarReservas();
   });
-
-  function enviar(accion, id) {
-    $.ajax({
-      type: "POST",
-      url: "/reservas/" + id + "/" + accion,
-      success: function (data) {
-        console.log("ta to bien");
-        location.reload();
-      },
-      error: function () {
-        alert("Algo ha ido mal...")
-      },
-    })
-  }
 
   function saltaPaginaConf(elem) {
     loadDoc("/reservas/confirmadas?dia=" + $("#dia-seleccionado").text()
@@ -97,7 +72,6 @@
   }
 
   function rellenarFormulario(data) {
-    console.log("@@@ data " + JSON.stringify(data));
     $("#fid").val(data.id);
     $("#fnombre").val(data.nombre);
     $("#fmail").val(data.mail);

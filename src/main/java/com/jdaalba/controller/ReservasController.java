@@ -91,7 +91,7 @@ public record ReservasController(ReservaService service) {
   @PostMapping("/{id_reserva}/rechazar")
   @ResponseBody
   public void rechazar(@PathVariable("id_reserva") String idReserva) {
-    log.info("Confirmando reserva {}", idReserva);
+    log.info("Rechazando reserva {}", idReserva);
     throw new UnsupportedOperationException("Sin implementar");
   }
 }

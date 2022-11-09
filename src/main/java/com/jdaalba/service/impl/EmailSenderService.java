@@ -27,14 +27,14 @@ public class EmailSenderService implements SenderService {
   public void enviarConfirmacion(Reserva reserva) {
     final var nombrePlantilla = "confirmacion-reserva";
     final var asunto = "Confirmación de reserva";
-//    extracted(reserva, asunto, nombrePlantilla);
+    extracted(reserva, asunto, nombrePlantilla);
   }
 
   @Override
   public void send(Reserva reserva) {
     final var asunto = "Solicitud recibida correctamente";
     final var nombrePlantilla = "confirmacion-recibo";
-//    extracted(reserva, asunto, nombrePlantilla);
+    extracted(reserva, asunto, nombrePlantilla);
   }
 
   private void extracted(Reserva reserva, String asunto, String nombrePlantilla) {
