@@ -9,6 +9,10 @@
     console.log("Rechazando " + id);
     enviar("rechazar", id);
   });
+  // recuperarReservas
+  $(document).on("click", "#buscar-dia", function () {
+    loadDoc("/reservas/confirmadas?dia=" + $("#sel-dia").val());
+  });
 
   function enviar(accion, id) {
     $.ajax({
@@ -23,8 +27,21 @@
       },
     })
   }
+
+  function saltaPaginaConf(elem) {
+    loadDoc("/reservas/confirmadas?dia=" + $("#dia-seleccionado").text()
+        + "&pagina=" + elem.getAttribute("pag"));
+  }
 </script>
-<h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
+<div class="w3-row">
+  <h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
+  <form action="#">
+    <label for="sel-dia">Día</label>
+    <input type="date" th:attr="value=${dia}" id="sel-dia" name="dia" required>
+    <button id="buscar-dia" type="button">Consultar</button>
+  </form>
+  <span id="dia-seleccionado" th:text="${dia}" hidden></span>
+</div>
 <div class="w3-display-container" th:if="${#lists.isEmpty(reservas)}">
   <div class="ww3-display-topmiddle w3-xxlarge">Parece que no hay reservas</div>
 </div>
@@ -51,6 +68,6 @@
   <div class="w3-bar w3-center">
     <button th:each="i : ${#numbers.sequence(0, last, 1)}"
             th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
-            th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPagina(this)"></button>
+            th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPaginaConf(this)"></button>
   </div>
 </div>
