@@ -1,4 +1,13 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/db
+#      uri: mongodb://mongo:27017/db
+      username: user
+      password: pass
+#      uri: mongodb://localhost:27017/db
+      database: db
+      host: app-mongo
+#      host: mongodb
+      port: 27017
+  profiles:
+    active: mail

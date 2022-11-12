@@ -15,4 +15,4 @@
 log/
 target/
 
-src/main/resources/application-mailconfig.yml
+/src/main/resources/application-mail.yml
