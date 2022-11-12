@@ -22,18 +22,50 @@
     <td th:text="${r.peticiones}"></td>
     <td th:text="${r.fechaRecepcion}"></td>
     <td>
-      <button class="confirmar w3-button w3-blue" th:attr="onclick='conres(\'' + ${r.id} + '\');'">Sí</button>
-      <button class="rechazar w3-button w3-red" th:attr="onclick='canres(\'' + ${r.id} + '\');'">No</button>
+      <button class="confirmar w3-button w3-blue" th:attr="onclick='conres(\'' + ${r.id} + '\');'">
+        Sí
+      </button>
+      <!--      <button class="rechazar w3-button w3-red" onclick="abrirModal('modalRechazar')">No</button>-->
+      <button class="rechazar w3-button w3-red" th:attr="onclick='carRes(\'' + ${r.id} + '\');'">
+        No
+      </button>
     </td>
   </tr>
 </table>
 <br/>
 <div class="w3-content">
-<div class="w3-bar w3-center">
-  <button th:each="i : ${#numbers.sequence(0, last, 1)}"
-          th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
-          th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPagina(this)"></button>
+  <div class="w3-bar w3-center">
+    <button th:each="i : ${#numbers.sequence(0, last, 1)}"
+            th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
+            th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPagina(this)"></button>
+  </div>
 </div>
+
+<div id="modalRechazar" class="w3-modal w3-animate-opacity">
+  <div class="w3-modal-content w3-card-4">
+    <header class="w3-container w3-blue">
+        <span onclick="cerrarModalR();"
+              class="w3-button w3-large w3-display-topright">&times;</span>
+      <h2>Mensaje de cancelación</h2>
+    </header>
+    <div class="w3-container">
+      <form id="formReserva">
+        <input id="fid" type="text" disabled hidden>
+        <p>
+          <label for="fnombre">Nombre:</label>
+          <input id="fnombre" class="w3-input w3-padding-16 w3-border" type="text" disabled>
+        </p>
+        <p>
+          <label for="fres">Respuesta:</label><br>
+          <textarea id="fres" placeholder="Tu respuesta" style="width:100%;height:200px"></textarea>
+        </p>
+        <p>
+          <button class="w3-button w3-light-grey w3-block" type="button" onclick="canres();">Enviar
+          </button>
+        </p>
+      </form>
+    </div>
+  </div>
 </div>
 <script>
   function saltaPagina(elem) {
@@ -41,11 +73,35 @@
   }
 
   function conres(id) {
-    enviar("confirmar", id);
+    $.ajax({
+      type: "POST",
+      url: "/reservas/" + id + "/confirmar",
+      success: function (data) {
+        loadDoc("/reservas")
+      },
+      error: function () {
+        alert("Algo ha ido mal...")
+      },
+    })
   }
 
-  function canres(id) {
-    enviar("rechazar", id);
+  function canres() {
+    console.log("@@@@@ " + $("#fres").val());
+    const json = {
+      "mensaje": $("#fres").val()
+    }
+    $.ajax({
+      type: "POST",
+      url: "/reservas/" + $("#fid").val() + "/cancelar",
+      data: JSON.stringify(json),
+      contentType: "application/json; charset=utf-8",
+      success: function (data) {
+        loadDoc("/reservas")
+      },
+      error: function () {
+        alert("Algo ha ido mal...")
+      },
+    })
   }
 
   function enviar(accion, id) {
@@ -59,6 +115,27 @@
         alert("Algo ha ido mal...")
       },
     })
+  }
+
+  function carRes(id) {
+    $.ajax({
+      type: "GET",
+      url: "/reservas/" + id,
+      success: function (data) {
+        rellenarFormulario(data);
+        abrirModal('modalRechazar');
+      },
+      error: function () {
+        alert("Reserva no encontrada")
+      },
+    })
+  }
+
+  function cerrarModalR() {
+    document.getElementById('modalRechazar').style.display = 'none'
+    $("#fid").val(null);
+    $("#fnombre").val(null);
+    $("#fmail").val(null);
   }
 
 </script>

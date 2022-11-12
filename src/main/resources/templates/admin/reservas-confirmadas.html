@@ -53,17 +53,13 @@
     $("#fconf").prop("checked", false);
   }
 
-  function abrirModal() {
-    document.getElementById('id01').style.display = 'block'
-  }
-
   function modificarReserva(elem) {
     $.ajax({
       type: "GET",
-      url: "/reservas/confirmadas/" + elem.getAttribute('id-reserva'),
+      url: "/reservas/" + elem.getAttribute('id-reserva'),
       success: function (data) {
         rellenarFormulario(data);
-        abrirModal();
+        abrirModal('id01');
       },
       error: function () {
         alert("Reserva no encontrada")
@@ -133,7 +129,7 @@
   </div>
 </div>
 <br>
-<button onclick="abrirModal()"
+<button onclick="abrirModal('id01')"
         class="w3-button w3-blue w3-block">Nueva reserva
 </button>
 <div id="id01" class="w3-modal w3-animate-opacity">

@@ -62,7 +62,7 @@ public record ReservasController(ReservaService service) {
     return "admin/reservas-confirmadas.html";
   }
 
-  @GetMapping("/confirmadas/{id}")
+  @GetMapping("/{id}")
   @ResponseBody
   public Reserva buscarReserva(@PathVariable("id") String id) {
     log.info("Buscando reserva con id '{}'", id);
