@@ -45,9 +45,9 @@
   <div class="contenedor">
     <h1>Hola <span th:text="${name}">Juan</span></h1>
     <br>
-    <p th:text="${mensaje}">Tu mensaje</p>
+    <p th:each="p : ${parrafos}" th:text="${p}">Tu mensaje</p>
     <p>
-      Puedes volver a hacer una reserva en <a href="http://localhost:8080">nuestra web</a> o
+      Puedes volver a hacer una reserva desde <a href="http://localhost:8080">nuestra web</a> o
       llamando al teléfono <span class="remarcado">666-666-666</span>
     </p>
     <p>

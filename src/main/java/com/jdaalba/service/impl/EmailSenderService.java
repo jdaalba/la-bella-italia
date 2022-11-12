@@ -40,7 +40,6 @@ public class EmailSenderService implements SenderService {
 
   @Override
   public void enviarRechazo(Reserva reserva, String mensaje) {
-    // FIXME: 12/11/22 arreglar párrafos
     send(getParams(reserva, mensaje), reserva, "Reserva rechazada", "rechazo-reserva");
   }
 
@@ -80,7 +79,7 @@ public class EmailSenderService implements SenderService {
   private Map<String, Object> getParams(Reserva reserva, String mensaje) {
     return Map.of(
         "name", reserva.getNombre(),
-        "mensaje", mensaje
+        "parrafos", mensaje.split("\r?\n")
     );
   }
 }
