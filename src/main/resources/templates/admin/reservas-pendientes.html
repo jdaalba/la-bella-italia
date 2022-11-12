@@ -33,7 +33,7 @@
   </tr>
 </table>
 <br/>
-<div class="w3-content">
+<div th:if="${last} > 1" class="w3-content">
   <div class="w3-bar w3-center">
     <button th:each="i : ${#numbers.sequence(0, last, 1)}"
             th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
@@ -60,7 +60,8 @@
           <textarea id="fres" placeholder="Tu respuesta" style="width:100%;height:200px"></textarea>
         </p>
         <p>
-          <button class="w3-button w3-light-grey w3-block" type="button" onclick="canres();">Enviar
+          <button class="w3-button w3-blue w3-block" type="button" onclick="canres();"
+                  id="botonenvio">Enviar
           </button>
         </p>
       </form>
@@ -82,11 +83,12 @@
       error: function () {
         alert("Algo ha ido mal...")
       },
-    })
+    });
   }
 
   function canres() {
-    alert("Hay que hacer algo aquí porque tarda bastante")
+    const $botonenvio = $("#botonenvio");
+    $botonenvio.css("cursor", "wait");
     const json = {
       "mensaje": $("#fres").val()
     }
@@ -101,7 +103,8 @@
       error: function () {
         alert("Algo ha ido mal...")
       },
-    })
+    });
+    $botonenvio.css("cursor", null);
   }
 
   function enviar(accion, id) {
