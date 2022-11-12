@@ -86,13 +86,13 @@
   }
 
   function canres() {
-    console.log("@@@@@ " + $("#fres").val());
+    alert("Hay que hacer algo aquí porque tarda bastante")
     const json = {
       "mensaje": $("#fres").val()
     }
     $.ajax({
       type: "POST",
-      url: "/reservas/" + $("#fid").val() + "/cancelar",
+      url: "/reservas/" + $("#fid").val() + "/rechazar",
       data: JSON.stringify(json),
       contentType: "application/json; charset=utf-8",
       success: function (data) {

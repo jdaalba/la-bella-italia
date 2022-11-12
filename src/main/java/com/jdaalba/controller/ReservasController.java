@@ -90,8 +90,12 @@ public record ReservasController(ReservaService service) {
   @CrossOrigin
   @PostMapping("/{id_reserva}/rechazar")
   @ResponseBody
-  public void rechazar(@PathVariable("id_reserva") String idReserva) {
-    log.info("Rechazando reserva {}", idReserva);
-    throw new UnsupportedOperationException("Sin implementar");
+  public void rechazar(@PathVariable("id_reserva") String idReserva, @RequestBody Rechazo rechazo) {
+    log.info("Rechazando reserva {}, {}", idReserva, rechazo);
+    service.rechazar(idReserva, rechazo.mensaje());
+  }
+
+  public record Rechazo(String mensaje) {
+
   }
 }

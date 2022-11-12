@@ -5,6 +5,7 @@ import static java.util.Objects.requireNonNull;
 import com.jdaalba.entity.Reserva;
 import com.jdaalba.service.SenderService;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,31 +28,26 @@ public class EmailSenderService implements SenderService {
   public void enviarConfirmacion(Reserva reserva) {
     final var nombrePlantilla = "confirmacion-reserva";
     final var asunto = "Confirmación de reserva";
-    extracted(reserva, asunto, nombrePlantilla);
+    send(getParams(reserva), reserva, asunto, nombrePlantilla);
   }
 
   @Override
   public void send(Reserva reserva) {
     final var asunto = "Solicitud recibida correctamente";
     final var nombrePlantilla = "confirmacion-recibo";
-    extracted(reserva, asunto, nombrePlantilla);
+    send(getParams(reserva), reserva, asunto, nombrePlantilla);
   }
 
-  private void extracted(Reserva reserva, String asunto, String nombrePlantilla) {
-    log.info("Enviando {} para la reserva: {}", asunto, reserva);
+  @Override
+  public void enviarRechazo(Reserva reserva, String mensaje) {
+    // FIXME: 12/11/22 arreglar párrafos
+    send(getParams(reserva, mensaje), reserva, "Reserva rechazada", "rechazo-reserva");
+  }
+
+  private void send(Map<String, Object> params, Reserva reserva, String asunto, String plantilla) {
     final var ctx = new Context();
-    ctx.setVariable("name", reserva.getNombre());
-    final var dFormat = DateTimeFormatter.ofPattern("dd-MM");
-    final var tFormat = DateTimeFormatter.ofPattern("HH:mm");
-    final var formattedDate = dFormat.format(reserva.getMomentoReserva());
-    final var formattedTime = tFormat.format(reserva.getMomentoReserva());
-
-    ctx.setVariable("name", reserva.getNombre());
-    ctx.setVariable("date", formattedDate);
-    ctx.setVariable("time", formattedTime);
-    ctx.setVariable("numberOfPersons", reserva.getNumeroComensales());
-
-    final var htmlContent = this.templateEngine.process("html/" + nombrePlantilla + ".html", ctx);
+    ctx.setVariables(params);
+    final var htmlContent = this.templateEngine.process("html/" + plantilla + ".html", ctx);
 
     try {
       final var mimeMessage = mailSender.createMimeMessage();
@@ -61,9 +57,30 @@ public class EmailSenderService implements SenderService {
       helper.setSubject(asunto);
       helper.setText(htmlContent, true);
       mailSender.send(mimeMessage);
-      log.info("Reserva enviada correctamente");
+      log.info("Email enviado enviada correctamente");
     } catch (MessagingException e) {
       log.error("Error en el envío de la confirmación", e);
     }
+  }
+
+  private Map<String, Object> getParams(Reserva reserva) {
+    final var dFormat = DateTimeFormatter.ofPattern("dd-MM");
+    final var tFormat = DateTimeFormatter.ofPattern("HH:mm");
+    final var formattedDate = dFormat.format(reserva.getMomentoReserva());
+    final var formattedTime = tFormat.format(reserva.getMomentoReserva());
+
+    return Map.of(
+        "name", reserva.getNombre(),
+        "date", formattedDate,
+        "time", formattedTime,
+        "numberOfPersons", reserva.getNumeroComensales()
+    );
+  }
+
+  private Map<String, Object> getParams(Reserva reserva, String mensaje) {
+    return Map.of(
+        "name", reserva.getNombre(),
+        "mensaje", mensaje
+    );
   }
 }

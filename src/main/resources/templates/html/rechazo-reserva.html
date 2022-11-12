@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <title th:remove="all">Confirmación de reservation</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <style>
+    p {
+      font-family: Avenir, Helvetica, sans-serif;
+      box-sizing: border-box;
+      font-size: 16px;
+      line-height: 1.5em;
+      margin-top: 0;
+      text-align: left;
+    }
+
+    .fondo {
+      font-family: Avenir, Helvetica, sans-serif;
+      font-size: 16px;
+      background-color: black;
+      box-sizing: border-box;
+      color: #74787e;;
+      padding: 20px;
+
+    }
+
+    .contenedor {
+      padding: 35px;
+      font-family: Avenir, Helvetica, sans-serif;
+      box-sizing: border-box;
+      background-color: #ffffff;
+      border-color: #e8e5ef;
+      border-radius: 2px;
+      border-width: 1px;
+      margin: 0 auto;
+      width: 570px;
+    }
+
+    .remarcado {
+      color: #f44336;
+    }
+  </style>
+</head>
+<body>
+<div class="fondo">
+  <div class="contenedor">
+    <h1>Hola <span th:text="${name}">Juan</span></h1>
+    <br>
+    <p th:text="${mensaje}">Tu mensaje</p>
+    <p>
+      Puedes volver a hacer una reserva en <a href="http://localhost:8080">nuestra web</a> o
+      llamando al teléfono <span class="remarcado">666-666-666</span>
+    </p>
+    <p>
+      Un saludo.
+    </p>
+  </div>
+</div>
+</body>
+</html>
