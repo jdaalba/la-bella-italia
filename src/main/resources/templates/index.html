@@ -7,9 +7,18 @@
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
   <style>
-    body, html {height: 100%}
-    body,h1,h2,h3,h4,h5,h6 {font-family: "Amatic SC", sans-serif}
-    .menu {display: none}
+    body, html {
+      height: 100%
+    }
+
+    body, h1, h2, h3, h4, h5, h6 {
+      font-family: "Amatic SC", sans-serif
+    }
+
+    .menu {
+      display: none
+    }
+
     .bgimg {
       background-repeat: no-repeat;
       background-size: cover;
@@ -61,9 +70,11 @@
     <span class="w3-tag w3-xlarge">Open from 10am to 12pm</span>
   </div>
   <div class="w3-display-middle w3-center">
-    <span class="w3-text-white w3-hide-small" style="font-size:100px"><b>La<br>Bella <span class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></span>
+    <span class="w3-text-white w3-hide-small" style="font-size:100px"><b>La<br>Bella <span
+        class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></span>
     <span class="w3-text-white w3-hide-large w3-hide-medium" style="font-size:60px"><b>La<br>Bella Italia</b></span>
-    <p><a href="#menu" class="w3-button w3-xxlarge w3-black  w3-hover-green">Enséñame el menú</a></p>
+    <p><a href="#menu" class="w3-button w3-xxlarge w3-black  w3-hover-green">Enséñame el menú</a>
+    </p>
   </div>
 </header>
 
@@ -135,15 +146,22 @@
   </div>
 </div>
 
-<!-- About Container -->
+<!-- Acerca Container -->
 <div class="w3-container w3-padding-64 w3-red w3-grayscale w3-xlarge" id="acerca">
   <div class="w3-content">
-    <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">About</h1>
-    <p>The Pizza Restaurant was founded in blabla by Mr. Italiano in lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-    <p><strong>The Chef?</strong> Mr. Italiano himself<img src="/images/chef.jpg" style="width:150px" class="w3-circle w3-right" alt="Chef"></p>
-    <p>We are proud of our interiors.</p>
-    <img src="/images/onepage_restaurant.jpg" style="width:100%" class="w3-margin-top w3-margin-bottom" alt="Restaurant">
-    <h1><b>Opening Hours</b></h1>
+    <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Acerca</h1>
+    <p>La Bella Italia fue fundada en el año blablabla por Mr. Italiano en lorem ipsum dolor sit
+      amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+      aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+      ea commodo consequat.</p>
+    <p><strong>¿Nuestro Chef?</strong> El mismo Mr. Italiano<img src="/images/chef.jpg"
+                                                                 style="width:150px"
+                                                                 class="w3-circle w3-right"
+                                                                 alt="Chef"></p>
+    <p>Estamos orgullosos de nuestros interiores.</p>
+    <img src="/images/onepage_restaurant.jpg" style="width:100%"
+         class="w3-margin-top w3-margin-bottom" alt="Restaurant">
+    <h1><b>Horarios</b></h1>
 
     <div class="w3-row">
       <div class="w3-col s6">
@@ -169,23 +187,35 @@
   <div class="w3-content">
     <h1 class="w3-center w3-jumbo" style="margin-bottom:64px">Contacto</h1>
     <p>Puedes encontrarnos en c/Falsa 123 en Algún Lugar o llamarnos al 666-66-66-66</p>
-    <p><span class="w3-tag">PVI</span> Ofrecemos servicio completo de catering para cualquier evento, grande o pequeño. Entendemos sus necesidades y atenderemos la comida para satisfacer los criterios más importantes de todos, tanto en apariencia como en sabor./</p>
+    <p><span class="w3-tag">PVI</span> Ofrecemos servicio completo de catering para cualquier
+      evento, grande o pequeño. Entendemos sus necesidades y atenderemos la comida para satisfacer
+      los criterios más importantes de todos, tanto en apariencia como en sabor./</p>
     <p class="w3-xxlarge"><strong>Reserva</strong> una mesa</p>
     <form id="formReserva">
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="nombre" placeholder="Tu nombre" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="mail" placeholder="Tu mail" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="telefono" placeholder="Tu teléfono"></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales" placeholder="¿Cuántos seréis?" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva" placeholder="¿Cuándo será?" required th:attr="value=${fecha}"></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones" placeholder="Algo que debamos saber"></p>
-      <p><button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar</button></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="nombre"
+                placeholder="Tu nombre" required></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="mail"
+                placeholder="Tu mail" required></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="telefono"
+                placeholder="Tu teléfono"></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales"
+                placeholder="¿Cuántos seréis?" required></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva"
+                placeholder="¿Cuándo será?" required th:attr="value=${fecha}"></p>
+      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones"
+                placeholder="Algo que debamos saber"></p>
+      <p>
+        <button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar
+        </button>
+      </p>
     </form>
   </div>
 </div>
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-48 w3-xxlarge">
-  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank" class="w3-hover-text-green">w3.css</a></p>
+  <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" title="W3.CSS" target="_blank"
+                   class="w3-hover-text-green">w3.css</a></p>
 </footer>
 
 <script>
@@ -203,6 +233,7 @@
     document.getElementById(menuName).style.display = "block";
     evt.currentTarget.firstElementChild.className += " w3-red";
   }
+
   document.getElementById("myLink").click();
 </script>
 
