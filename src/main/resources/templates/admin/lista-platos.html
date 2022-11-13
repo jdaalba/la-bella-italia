@@ -47,8 +47,6 @@
         <p>
           <label for="pcat">Categoría:</label>
           <select class="w3-input w3-padding-16 w3-border" id="pcat" required>
-            <!-- todo insertar opción por defecto vacía -->
-            <!--<option disabled selected value> &#45;&#45; elige una opción &#45;&#45; </option>-->
             <option th:each="c : ${categorias}" th:attr="value=${c}" th:text="${c}"></option>
           </select>
         </p>
@@ -77,10 +75,6 @@
   </div>
 </div>
 <script>
-  function modificar(elem) {
-    loadDoc('/platos/modificar/' + elem.getAttribute('id-plato'));
-  }
-
   function borrar(elem) {
     loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
   }
@@ -97,9 +91,8 @@
 
   $(document).ready(function () {
     $("#salvarPlato").click(function () {
-      let id = $("#fid").val();
+      let id = $("#pid").val();
       console.log("id: " + id);
-      id = id !== undefined ? id : '';
       const json = {
         id: id,
         categoria: $("#pcat").val(),
@@ -128,4 +121,28 @@
       });
     })
   });
+
+  function modificar(elem) {
+    const id = elem.getAttribute('id-plato')
+    $.ajax({
+      type: "GET",
+      url: "/platos/" + id,
+      success: function (data) {
+        rellenarPlato(data);
+        abrirModal('modalplato');
+      },
+      error: function () {
+        alert("Reserva no encontrada")
+      },
+    })
+  }
+
+  function rellenarPlato(data) {
+    $("#pid").val(data.id);
+    $("#pcat").val(data.categoria);
+    $("#pnom").val(data.nombre);
+    $("#ping").val(data.ingredientes.join(", "));
+    $("#prec").val(data.precio);
+    $("#pets").val(data.etiqueta);
+  }
 </script>
