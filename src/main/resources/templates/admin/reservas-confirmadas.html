@@ -85,10 +85,11 @@
   <h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
   <form action="#">
     <label for="sel-dia">Día</label>
-    <input type="date" th:attr="value=${dia}" id="sel-dia" name="dia" required>
-    <button id="buscar-dia" type="button">Consultar</button>
+    <input type="date" class="w3-border" th:attr="value=${dia}" id="sel-dia" name="dia" required>
+    <button id="buscar-dia" class="w3-button w3-blue" type="button">Consultar</button>
   </form>
   <span id="dia-seleccionado" th:text="${dia}" hidden></span>
+  <br>
 </div>
 <div class="w3-display-container" th:if="${#lists.isEmpty(reservas)}">
   <div class="ww3-display-topmiddle w3-xxlarge">Parece que no hay reservas</div>
