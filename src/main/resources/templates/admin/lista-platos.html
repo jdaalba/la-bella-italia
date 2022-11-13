@@ -21,7 +21,9 @@
         <button class="w3-button w3-blue" th:attr="id-plato=${p.id}" onclick="modificar(this);">
           Modificar
         </button>
-        <button class="w3-button w3-red" th:attr="id-plato=${p.id}" onclick="borrar(this);">Borrar
+        <button class="w3-button w3-red"
+                th:attr="onclick='abrirModalBorrado(\'' + ${p.id} + '\',\''+${p.nombre} + '\');'">
+          Borrar
         </button>
       </td>
     </tr>
@@ -35,7 +37,7 @@
     <header class="w3-container w3-blue">
         <span onclick="cerrarModalPlato();"
               class="w3-button w3-large w3-display-topright">&times;</span>
-      <h2>Nueva reserva</h2>
+      <h2>Editor de platos</h2>
     </header>
     <div class="w3-container">
       <div id="fplato">
@@ -59,7 +61,7 @@
           <input class="w3-input w3-padding-16 w3-border" id="prec" type="number" required>
         </p>
         <p>
-          <label for="pets">Categoría:</label>
+          <label for="pets">Etiqueta:</label>
           <select class="w3-input w3-padding-16 w3-border" id="pets">
             <option value=""></option>
             <option th:each="e : ${etiquetas}" th:attr="value=${e}" th:text="${e}"></option>
@@ -74,9 +76,40 @@
     </div>
   </div>
 </div>
+<div id="modalborrado" class="w3-modal w3-animate-opacity">
+  <div class="w3-modal-content w3-card-4">
+    <header class="w3-container w3-blue">
+        <span onclick="cerrarModalBorrado();"
+              class="w3-button w3-large w3-display-topright">&times;</span>
+      <h2>Borrar plato</h2>
+    </header>
+    <div class="w3-container">
+      <div id="fborrado">
+        <input id="pidb" type="text" disabled hidden>
+        <p>
+          <label for="plato-introducido">
+            Escribe <b id="nombrep"></b> para borrar el plato
+          </label>
+          <br>
+          <input id="plato-introducido" type="text">
+        </p>
+        <button id="confirmar" class="w3-button w3-light-grey w3-block" disabled>Confirmar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
-  function borrar(elem) {
-    loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
+  function cerrarModalBorrado() {
+    document.getElementById('modalborrado').style.display = 'none'
+    $("#nombrep").text("");
+    $("#plato-introducido").val("");
+  }
+
+  function abrirModalBorrado(id, nombre) {
+    $("#pidb").val(id);
+    $("#nombrep").text(nombre);
+    abrirModal('modalborrado');
   }
 
   function cerrarModalPlato() {
@@ -93,13 +126,14 @@
     $("#salvarPlato").click(function () {
       let id = $("#pid").val();
       console.log("id: " + id);
+      const etiqueta = $("#pets").val();
       const json = {
         id: id,
         categoria: $("#pcat").val(),
         nombre: $("#pnom").val(),
         ingredientes: $("#ping").val().split(",").map(s => s.trim()),
         precio: $("#prec").val(),
-        etiqueta: $("#pets").val()
+        etiqueta: etiqueta !== '' ? etiqueta : null
       };
       const method = id != null && id !== "" ? "PUT" : "POST";
       const url = "/platos" + (id != null && id !== "" ? "/" + id : "");
@@ -119,7 +153,24 @@
           alert("Parece que algo ha ido mal, prueba más tarde...")
         },
       });
-    })
+    });
+
+    $("#plato-introducido").keyup(function () {
+      $("#confirmar").prop("disabled", $("#nombrep").text() !== $("#plato-introducido").val());
+    });
+
+    $("#confirmar").click(function () {
+      $.ajax({
+        type: "DELETE",
+        url: "/platos/" + $("#pidb").val(),
+        success: function () {
+          loadDoc("/platos");
+        },
+        error: function () {
+          alert("Algo ha ido mal, prueba más adelante")
+        },
+      });
+    });
   });
 
   function modificar(elem) {

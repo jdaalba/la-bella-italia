@@ -43,14 +43,6 @@ public record PlatoController(PlatosService service) {
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  @GetMapping("/nuevo")
-  public String getPaginaNuevo(Model model) {
-    model.addAttribute("plato", new Plato());
-    model.addAttribute("categorias", Categoria.values());
-    model.addAttribute("etiquetas", Etiqueta.values());
-    return "admin/platos.html";
-  }
-
   @GetMapping
   public String getListado(Model model) {
     log.info("Recuperando listado de platos");
@@ -67,18 +59,11 @@ public record PlatoController(PlatosService service) {
     return service.buscar(id).orElseThrow();
   }
 
-  @GetMapping("/borrar/{id}")
-  public String getPaginaBorrado(Model model, @PathVariable("id") String id) {
-    // todo: implementar un 404 correcto
-    model.addAttribute("plato", service.buscar(id).orElseThrow());
-    model.addAttribute("accion", "borrar");
-    return "admin/confirmar-plato";
-  }
-
   @DeleteMapping("/{id}")
   @ResponseBody
-  public void borrarPlato(@PathVariable("id") String id) {
+  public ResponseEntity<Void> borrarPlato(@PathVariable("id") String id) {
     log.info("Borrando {}", id);
     service.borrar(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
