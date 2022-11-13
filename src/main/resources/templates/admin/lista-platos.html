@@ -29,7 +29,53 @@
   <br/>
 </div>
 <br/>
-<button class="w3-button w3-blue w3-block" onclick="loadDoc('/platos/nuevo');">Nuevo plato</button>
+<button class="w3-button w3-blue w3-block" onclick="abrirModal('modalplato');">Nuevo plato</button>
+<div id="modalplato" class="w3-modal w3-animate-opacity">
+  <div class="w3-modal-content w3-card-4">
+    <header class="w3-container w3-blue">
+        <span onclick="cerrarModalPlato();"
+              class="w3-button w3-large w3-display-topright">&times;</span>
+      <h2>Nueva reserva</h2>
+    </header>
+    <div class="w3-container">
+      <div id="fplato">
+        <input id="pid" type="text" disabled hidden>
+        <p>
+          <label for="pnom">Nombre:</label>
+          <input class="w3-input w3-padding-16 w3-border" id="pnom" type="text" required>
+        </p>
+        <p>
+          <label for="pcat">Categoría:</label>
+          <select class="w3-input w3-padding-16 w3-border" id="pcat" required>
+            <!-- todo insertar opción por defecto vacía -->
+            <!--<option disabled selected value> &#45;&#45; elige una opción &#45;&#45; </option>-->
+            <option th:each="c : ${categorias}" th:attr="value=${c}" th:text="${c}"></option>
+          </select>
+        </p>
+        <p>
+          <label for="ping">Ingredientes (separados por una coma):</label>
+          <input class="w3-input w3-padding-16 w3-border" id="ping" type="text" multiple required>
+        </p>
+        <p>
+          <label for="prec">Precio:</label>
+          <input class="w3-input w3-padding-16 w3-border" id="prec" type="number" required>
+        </p>
+        <p>
+          <label for="pets">Categoría:</label>
+          <select class="w3-input w3-padding-16 w3-border" id="pets">
+            <option value=""></option>
+            <option th:each="e : ${etiquetas}" th:attr="value=${e}" th:text="${e}"></option>
+          </select>
+        </p>
+        <p>
+          <button class="w3-button w3-light-grey w3-block" id="salvarPlato">
+            Enviar
+          </button>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
   function modificar(elem) {
     loadDoc('/platos/modificar/' + elem.getAttribute('id-plato'));
@@ -38,4 +84,48 @@
   function borrar(elem) {
     loadDoc('/platos/borrar/' + elem.getAttribute('id-plato'));
   }
+
+  function cerrarModalPlato() {
+    document.getElementById('modalplato').style.display = 'none'
+    $("#pid").val(null);
+    $("#pnom").val(null);
+    $("#pcat").val('PIZZAS');
+    $("#ping").val(null);
+    $("#prec").val(null);
+    $("#pets").val('');
+  }
+
+  $(document).ready(function () {
+    $("#salvarPlato").click(function () {
+      let id = $("#fid").val();
+      console.log("id: " + id);
+      id = id !== undefined ? id : '';
+      const json = {
+        id: id,
+        categoria: $("#pcat").val(),
+        nombre: $("#pnom").val(),
+        ingredientes: $("#ping").val().split(",").map(s => s.trim()),
+        precio: $("#prec").val(),
+        etiqueta: $("#pets").val()
+      };
+      const method = id != null && id !== "" ? "PUT" : "POST";
+      const url = "/platos" + (id != null && id !== "" ? "/" + id : "");
+      console.log("method: " + method);
+      console.log("url: " + url);
+      console.log("body: " + JSON.stringify(json));
+      $.ajax({
+        type: method,
+        url: url,
+        data: JSON.stringify(json),
+        contentType: "application/json; charset=utf-8",
+        success: function () {
+          cerrarModalPlato();
+          loadDoc("/platos");
+        },
+        error: function () {
+          alert("Parece que algo ha ido mal, prueba más tarde...")
+        },
+      });
+    })
+  });
 </script>

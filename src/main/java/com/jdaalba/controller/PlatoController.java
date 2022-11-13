@@ -6,6 +6,8 @@ import com.jdaalba.entity.Plato;
 import com.jdaalba.service.PlatosService;
 import java.util.Arrays;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,11 +24,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public record PlatoController(PlatosService service) {
 
+//  @PostMapping
+//  public String registrarPlato(@ModelAttribute Plato plato, Model model) {
+//    log.info("Creando plato: {}", plato);
+//    service.salvar(plato);
+//    return "redirect:/platos";
+//  }
+
   @PostMapping
-  public String registrarPlato(@ModelAttribute Plato plato, Model model) {
+  @ResponseBody
+  public ResponseEntity<Void> salvarPlato(@RequestBody Plato plato) {
     log.info("Creando plato: {}", plato);
     service.salvar(plato);
-    return "redirect:/platos";
+    return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
   @GetMapping("/nuevo")
@@ -39,11 +49,14 @@ public record PlatoController(PlatosService service) {
 
   @GetMapping
   public String getListado(Model model) {
+    log.info("Recuperando listado de platos");
     model.addAttribute("categorias", Categoria.values());
     service.buscarTodos().forEach((c, ps) -> model.addAttribute(c.name(), ps));
+    model.addAttribute("etiquetas", Etiqueta.values());
     return "admin/lista-platos";
   }
 
+  @Deprecated
   @GetMapping("/modificar/{id}")
   public String modficar(Model model, @PathVariable("id") String id) {
     log.info("Modificando plato con id {}", id);
