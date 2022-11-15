@@ -20,4 +20,9 @@ public class AppController {
     model.addAttribute("fecha", LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
     return "index";
   }
+
+  @GetMapping("/condiciones")
+  public String condiciones() {
+    return "condiciones";
+  }
 }
