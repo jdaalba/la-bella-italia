@@ -4,3 +4,5 @@ spring:
       uri: mongodb://localhost:27017/db
   profiles:
     active: mail
+app:
+  encryption.secret: aaaaaaaaaaaaaaaaaaaaaaaa
