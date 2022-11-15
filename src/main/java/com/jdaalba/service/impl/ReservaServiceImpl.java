@@ -59,12 +59,19 @@ public record ReservaServiceImpl(
     repository.findById(id)
         .ifPresentOrElse(r -> {
               service.enviarRechazo(r, mensaje);
-              // fixme
-//              repository.delete(r);
+              repository.delete(r);
             },
             () -> {
               throw new RuntimeException("Reserva con id " + id + "no encontrada");
             });
+  }
+
+  @Override
+  public void modificar(String id, Reserva reserva) {
+    final var r = buscar(id);
+    if (!r.equals(reserva)) {
+      repository.save(reserva);
+    }
   }
 
   @Override

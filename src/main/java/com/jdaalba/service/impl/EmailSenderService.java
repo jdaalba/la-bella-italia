@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -24,6 +25,9 @@ public class EmailSenderService implements SenderService {
 
   private final TemplateEngine templateEngine;
 
+  @Value("${app.direccion}")
+  private String direccion;
+
   @Override
   public void enviarConfirmacion(Reserva reserva) {
     final var nombrePlantilla = "confirmacion-reserva";
@@ -33,9 +37,13 @@ public class EmailSenderService implements SenderService {
 
   @Override
   public void send(Reserva reserva) {
-    final var asunto = "Solicitud recibida correctamente";
-    final var nombrePlantilla = "confirmacion-recibo";
-    send(getParams(reserva), reserva, asunto, nombrePlantilla);
+    if (reserva.isConfirmada()) {
+      enviarConfirmacion(reserva);
+    } else {
+      final var asunto = "Solicitud recibida correctamente";
+      final var nombrePlantilla = "confirmacion-recibo";
+      send(getParams(reserva), reserva, asunto, nombrePlantilla);
+    }
   }
 
   @Override
@@ -79,7 +87,8 @@ public class EmailSenderService implements SenderService {
   private Map<String, Object> getParams(Reserva reserva, String mensaje) {
     return Map.of(
         "name", reserva.getNombre(),
-        "parrafos", mensaje.split("\r?\n")
+        "parrafos", mensaje.split("\r?\n"),
+        "direccion", direccion
     );
   }
 }

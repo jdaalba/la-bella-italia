@@ -17,4 +17,6 @@ public interface ReservaService {
   Reserva buscar(String id);
 
   void rechazar(String id, String mensaje);
+
+  void modificar(String id, Reserva reserva);
 }

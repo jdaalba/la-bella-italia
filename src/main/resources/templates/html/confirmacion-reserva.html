@@ -20,7 +20,6 @@
       box-sizing: border-box;
       color: #74787e;;
       padding: 20px;
-
     }
 
     .contenedor {
@@ -46,7 +45,8 @@
     <h1>Hola <span th:text="${name}">Juan</span></h1>
     <br>
     <p>
-      Te confirmamos que tu reserva para <span th:text="${numberOfPersons}">1</span> el día
+      Te confirmamos que tu reserva para
+      <span th:text="${numberOfPersons}" class="remarcado">1</span> el día
       <span class="remarcado" th:text="${date}">06-06-06</span> a las
       <span class="remarcado" th:text="${time}">06:06</span> se ha realizado correctamente.
     </p>

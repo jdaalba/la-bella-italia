@@ -47,7 +47,7 @@
     <br>
     <p th:each="p : ${parrafos}" th:text="${p}">Tu mensaje</p>
     <p>
-      Puedes volver a hacer una reserva desde <a href="http://localhost:8080">nuestra web</a> o
+      Puedes volver a hacer una reserva desde <a th:attr="href=${direccion}">nuestra web</a> o
       llamando al teléfono <span class="remarcado">666-666-666</span>
     </p>
     <p>

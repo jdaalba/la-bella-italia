@@ -73,10 +73,7 @@ public record ReservasController(ReservaService service) {
   @ResponseBody
   public void modificar(@PathVariable("id") String id, @RequestBody Reserva reserva) {
     log.info("Modificando reserva '{}' con id '{}'", reserva, id);
-    assert id.equals(reserva.getId());
-    // si no existe la reserva, lanza una excepción
-    service.buscar(id);
-    service.salvar(reserva);
+    service.modificar(id, reserva);
   }
 
   @CrossOrigin
