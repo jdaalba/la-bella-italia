@@ -6,3 +6,4 @@ spring:
     active: mail
 app:
   encryption.secret: aaaaaaaaaaaaaaaaaaaaaaaa
+  jobs.reservas-job: '0 0 0 * * *'
