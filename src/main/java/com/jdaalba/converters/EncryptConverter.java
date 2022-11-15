@@ -13,7 +13,7 @@ public class EncryptConverter implements MongoValueConverter<String, String> {
   private static DataEncrypter dataEncrypter;
 
   public static void setDataEncrypter(DataEncrypter dataEncrypter) {
-    assert isNull(dataEncrypter);
+    assert isNull(EncryptConverter.dataEncrypter);
     EncryptConverter.dataEncrypter = dataEncrypter;
   }
 
