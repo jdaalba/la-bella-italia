@@ -7,6 +7,7 @@ import com.jdaalba.mapper.ReservaDtoMapper;
 import com.jdaalba.service.ReservaService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,7 @@ public record ReservasController(ReservaService service) {
   @CrossOrigin
   @PostMapping
   @ResponseBody
-  public String registrarReserva(@RequestBody Reserva reserva) {
+  public String registrarReserva(@Valid @RequestBody Reserva reserva) {
     log.info("Reserva recibida: {}", reserva);
     service.salvar(reserva);
     return "redirect:/";
@@ -71,7 +72,7 @@ public record ReservasController(ReservaService service) {
 
   @PutMapping("/{id}")
   @ResponseBody
-  public void modificar(@PathVariable("id") String id, @RequestBody Reserva reserva) {
+  public void modificar(@PathVariable("id") String id, @Valid @RequestBody Reserva reserva) {
     log.info("Modificando reserva '{}' con id '{}'", reserva, id);
     service.modificar(id, reserva);
   }
