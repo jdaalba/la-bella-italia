@@ -30,26 +30,86 @@
   <script>
     $(document).ready(function () {
       $("#enviarReserva").click(function () {
-
-        const array = $("#formReserva").serializeArray();
-        const json = {};
-        $.each(array, function () {
-          json[this.name] = "" + this.value || "";
-        });
-        $.ajax({
-          type: "POST",
-          url: "/reservas",
-          data: JSON.stringify(json),
-          contentType: "application/json; charset=utf-8",
-          success: function () {
-            $("#enviarReserva").attr('disabled', 'disabled');
-          },
-          error: function () {
-            alert("Parece que algo ha ido mal, prueba más tarde...")
-          },
-        });
+        if (validarForm()) {
+          const array = $("#formReserva").serializeArray();
+          const json = {};
+          $.each(array, function () {
+            json[this.name] = "" + this.value || "";
+          });
+          $.ajax({
+            type: "POST",
+            url: "/reservas",
+            data: JSON.stringify(json),
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+              $("#enviarReserva").attr('disabled', 'disabled');
+            },
+            error: function () {
+              alert("Parece que algo ha ido mal, prueba más tarde...")
+            },
+          });
+        }
       });
     });
+
+    function validarForm() {
+      let res = true;
+      const $inombre = $("#inombre");
+      const $valnombre = $("#valnombre");
+      console.log($inombre.val() === "")
+      if ($inombre.val() === "") {
+        $inombre.addClass("w3-red");
+        $valnombre.attr("hidden", false);
+        res = false;
+      } else {
+        $inombre.removeClass("w3-red");
+        $valnombre.attr("hidden", true);
+      }
+      const $imail = $("#imail");
+      const $valmail = $("#valmail");
+      if ($imail.val() === "") {
+        $imail.addClass("w3-red");
+        $valmail.attr("hidden", false);
+        res = false;
+      } else {
+        $imail.removeClass("w3-red");
+        $valmail.attr("hidden", true);
+      }
+      const $inumero = $("#inumero");
+      const $valnumero = $("#valnumero");
+      if ($inumero.val() === "") {
+        $inumero.addClass("w3-red");
+        $valnumero.attr("hidden", false);
+        res = false;
+      } else {
+        $inumero.removeClass("w3-red");
+        $valnumero.attr("hidden", true);
+      }
+      const imomento = $("#imomento");
+      const valmomento = $("#valmomento");
+      if (imomento.val() === "") {
+        imomento.addClass("w3-red");
+        valmomento.attr("hidden", false);
+        res = false;
+      } else {
+        imomento.removeClass("w3-red");
+        valmomento.attr("hidden", true);
+      }
+
+      const condiciones = $("#condiciones");
+      const pcond = $("#pcond");
+      const valcond = $("#valcond");
+      if (!condiciones.prop("checked")) {
+        pcond.addClass("w3-red");
+        valcond.attr("hidden", false);
+        res = false;
+      } else {
+        pcond.removeClass("w3-red");
+        valcond.attr("hidden", true);
+      }
+
+      return res;
+    }
   </script>
 </head>
 <body>
@@ -192,23 +252,41 @@
       los criterios más importantes de todos, tanto en apariencia como en sabor./</p>
     <p class="w3-xxlarge"><strong>Reserva</strong> una mesa</p>
     <form id="formReserva">
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="nombre"
-                placeholder="Tu nombre" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="mail"
-                placeholder="Tu mail" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="telefono"
-                placeholder="Tu teléfono"></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales"
-                placeholder="¿Cuántos seréis?" required></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva"
-                placeholder="¿Cuándo será?" required th:attr="value=${fecha}"></p>
-      <p><input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones"
-                placeholder="Algo que debamos saber"></p>
       <p>
+        <input class="w3-input w3-padding-16 w3-border" type="text" name="nombre"
+               placeholder="Tu nombre" id="inombre" required>
+        <span class="requirements" id="valnombre" hidden>No puede estar vacío></span>
+      </p>
+      <p>
+        <input class="w3-input w3-padding-16 w3-border" type="text" name="mail"
+                placeholder="Tu mail" required id="imail">
+        <span class="requirements" id="valmail" hidden>No puede estar vacío></span>
+      </p>
+      <p>
+        <input class="w3-input w3-padding-16 w3-border" type="text" name="telefono"
+                placeholder="Tu teléfono">
+      </p>
+      <p>
+        <input class="w3-input w3-padding-16 w3-border" type="number" name="numeroComensales"
+                placeholder="¿Cuántos seréis?" required id="inumero">
+        <span class="requirements" id="valnumero" hidden>No puede estar vacío></span>
+      </p>
+      <p>
+        <input class="w3-input w3-padding-16 w3-border" type="datetime-local" name="momentoReserva"
+                placeholder="¿Cuándo será?" required id="imomento">
+<!--                placeholder="¿Cuándo será?" required th:attr="value=${fecha}" id="imomento">-->
+        <span class="requirements" id="valmomento" hidden>No puede estar vacío></span>
+      </p>
+      <p>
+        <input class="w3-input w3-padding-16 w3-border" type="text" name="peticiones"
+                placeholder="Algo que debamos saber">
+      </p>
+      <p id="pcond">
         <label for="condiciones">
           Al marcar esta casilla, acepto las <a href="/condiciones">política de privacidad</a>
         </label>
         <input class="w3-input w3-padding-16 w3-border" type="checkbox" id="condiciones" required>
+        <span class="requirements" id="valcond" hidden>Debes aceptar la política de privacidad</span>
       </p>
       <p>
         <button class="w3-button w3-light-grey w3-block" type="button" id="enviarReserva">Enviar
