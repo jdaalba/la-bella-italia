@@ -12,4 +12,6 @@ public interface ReservaRepository extends MongoRepository<Reserva, String> {
 
   Page<Reserva> findAllByMomentoReservaBetweenAndConfirmadaTrueOrderByMomentoReservaAsc(
       LocalDateTime l1, LocalDateTime l2, Pageable pageable);
+
+  void deleteAllByMomentoReservaBefore(LocalDateTime localDateTime);
 }

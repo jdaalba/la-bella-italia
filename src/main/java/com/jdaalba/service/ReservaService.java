@@ -15,4 +15,8 @@ public interface ReservaService {
   void confirmar(String id);
 
   Reserva buscar(String id);
+
+  void rechazar(String id, String mensaje);
+
+  void modificar(String id, Reserva reserva);
 }

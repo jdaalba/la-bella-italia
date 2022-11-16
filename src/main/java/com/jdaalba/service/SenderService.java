@@ -7,4 +7,6 @@ public interface SenderService {
   void send(Reserva reserva);
 
   void enviarConfirmacion(Reserva reserva);
+
+  void enviarRechazo(Reserva reserva, String mensaje);
 }

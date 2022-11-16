@@ -1,12 +1,13 @@
 package com.jdaalba.entity;
 
+import com.jdaalba.converters.EncryptConverter;
 import java.time.LocalDateTime;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.convert.ValueConverter;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -16,15 +17,17 @@ public class Reserva {
   @Id
   private String id;
 
-  @CreatedDate
-  private LocalDateTime fechaRecepcion;
+  private LocalDateTime fechaRecepcion = LocalDateTime.now();
 
   @NotBlank
+  @ValueConverter(EncryptConverter.class)
   private String mail;
 
   @NotBlank
+  @ValueConverter(EncryptConverter.class)
   private String nombre;
 
+  @ValueConverter(EncryptConverter.class)
   private String telefono;
 
   @Positive

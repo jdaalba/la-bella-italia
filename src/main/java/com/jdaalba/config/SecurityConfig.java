@@ -20,7 +20,9 @@ class SecurityConfig {
         .csrf().disable()
         .authorizeHttpRequests((requests) -> requests
             .antMatchers("/").permitAll()
+            .antMatchers(HttpMethod.GET,"/condiciones").permitAll()
             .antMatchers(HttpMethod.POST, "/reservas").permitAll()
+            .regexMatchers("/images/[\\-_a-zA-Z0-9\\.]+").permitAll()
             .anyRequest().authenticated()
         )
         .formLogin((form) -> form

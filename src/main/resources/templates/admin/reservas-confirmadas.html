@@ -53,17 +53,13 @@
     $("#fconf").prop("checked", false);
   }
 
-  function abrirModal() {
-    document.getElementById('id01').style.display = 'block'
-  }
-
   function modificarReserva(elem) {
     $.ajax({
       type: "GET",
-      url: "/reservas/confirmadas/" + elem.getAttribute('id-reserva'),
+      url: "/reservas/" + elem.getAttribute('id-reserva'),
       success: function (data) {
         rellenarFormulario(data);
-        abrirModal();
+        abrirModal('id01');
       },
       error: function () {
         alert("Reserva no encontrada")
@@ -89,10 +85,11 @@
   <h2>Reservas confirmadas <span th:text="${dia}"></span></h2>
   <form action="#">
     <label for="sel-dia">Día</label>
-    <input type="date" th:attr="value=${dia}" id="sel-dia" name="dia" required>
-    <button id="buscar-dia" type="button">Consultar</button>
+    <input type="date" class="w3-border" th:attr="value=${dia}" id="sel-dia" name="dia" required>
+    <button id="buscar-dia" class="w3-button w3-blue" type="button">Consultar</button>
   </form>
   <span id="dia-seleccionado" th:text="${dia}" hidden></span>
+  <br>
 </div>
 <div class="w3-display-container" th:if="${#lists.isEmpty(reservas)}">
   <div class="ww3-display-topmiddle w3-xxlarge">Parece que no hay reservas</div>
@@ -125,7 +122,7 @@
   </tr>
 </table>
 <br/>
-<div class="w3-content">
+<div th:if="${last} > 1" class="w3-content">
   <div class="w3-bar w3-center">
     <button th:each="i : ${#numbers.sequence(0, last, 1)}"
             th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
@@ -133,7 +130,7 @@
   </div>
 </div>
 <br>
-<button onclick="abrirModal()"
+<button onclick="abrirModal('id01')"
         class="w3-button w3-blue w3-block">Nueva reserva
 </button>
 <div id="id01" class="w3-modal w3-animate-opacity">

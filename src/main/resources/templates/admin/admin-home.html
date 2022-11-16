@@ -17,6 +17,10 @@
     function home() {
       $(document).load("/");
     }
+
+    function abrirModal(id) {
+      document.getElementById(id).style.display = 'block'
+    }
   </script>
   <style>
     #titulo {font-family: "Amatic SC", sans-serif}
@@ -25,9 +29,9 @@
 <body>
 <div class="w3-bar w3-blue">
   <a class="w3-bar-item w3-button w3-large w3-hover-black" href="/" id="titulo"><span class="w3-text-white w3-hide-small"><b>La Bella <span class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></span></a>
-  <a href="#" class="w3-bar-item w3-button w3-large" onclick="loadDoc('/reservas/confirmadas');">Reservas confirmadas</a>
-  <a href="#" class="w3-bar-item w3-button w3-large" onclick="loadDoc('/reservas');">Reservas pendientes</a>
-  <a href="#" class="w3-bar-item w3-button w3-large" onclick="loadDoc('/platos');">Editar menú</a>
+  <button class="w3-bar-item w3-button w3-large" onclick="loadDoc('/reservas/confirmadas');">Reservas confirmadas</button>
+  <button class="w3-bar-item w3-button w3-large" onclick="loadDoc('/reservas');">Reservas pendientes</button>
+  <button class="w3-bar-item w3-button w3-large" onclick="loadDoc('/platos');">Editar menú</button>
   <a href="/logout" class="w3-bar-item w3-button w3-large w3-display-topright">Cerrar sesión</a>
 </div>
 <div id="container" class="w3-container w3-margin"></div>

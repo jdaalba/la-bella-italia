@@ -7,6 +7,7 @@ import com.jdaalba.mapper.ReservaDtoMapper;
 import com.jdaalba.service.ReservaService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,7 @@ public record ReservasController(ReservaService service) {
   @CrossOrigin
   @PostMapping
   @ResponseBody
-  public String registrarReserva(@RequestBody Reserva reserva) {
+  public String registrarReserva(@Valid @RequestBody Reserva reserva) {
     log.info("Reserva recibida: {}", reserva);
     service.salvar(reserva);
     return "redirect:/";
@@ -62,7 +63,7 @@ public record ReservasController(ReservaService service) {
     return "admin/reservas-confirmadas.html";
   }
 
-  @GetMapping("/confirmadas/{id}")
+  @GetMapping("/{id}")
   @ResponseBody
   public Reserva buscarReserva(@PathVariable("id") String id) {
     log.info("Buscando reserva con id '{}'", id);
@@ -71,12 +72,9 @@ public record ReservasController(ReservaService service) {
 
   @PutMapping("/{id}")
   @ResponseBody
-  public void modificar(@PathVariable("id") String id, @RequestBody Reserva reserva) {
+  public void modificar(@PathVariable("id") String id, @Valid @RequestBody Reserva reserva) {
     log.info("Modificando reserva '{}' con id '{}'", reserva, id);
-    assert id.equals(reserva.getId());
-    // si no existe la reserva, lanza una excepción
-    service.buscar(id);
-    service.salvar(reserva);
+    service.modificar(id, reserva);
   }
 
   @CrossOrigin
@@ -90,8 +88,12 @@ public record ReservasController(ReservaService service) {
   @CrossOrigin
   @PostMapping("/{id_reserva}/rechazar")
   @ResponseBody
-  public void rechazar(@PathVariable("id_reserva") String idReserva) {
-    log.info("Rechazando reserva {}", idReserva);
-    throw new UnsupportedOperationException("Sin implementar");
+  public void rechazar(@PathVariable("id_reserva") String idReserva, @RequestBody Rechazo rechazo) {
+    log.info("Rechazando reserva {}, {}", idReserva, rechazo);
+    service.rechazar(idReserva, rechazo.mensaje());
+  }
+
+  public record Rechazo(String mensaje) {
+
   }
 }

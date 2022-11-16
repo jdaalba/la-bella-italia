@@ -1,3 +1,9 @@
+app:
+  encryption.secret: aaaaaaaaaaaaaaaaaaaaaaaa
+  direccion: 'http://localhost:${server.port}'
+  jobs.reservas-job: '0 0 0 * * *'
+server:
+  port: 8080
 spring:
   data:
     mongodb:

@@ -6,11 +6,21 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Amatic+SC">
-  <style>h1 {font-family: "Amatic SC", sans-serif}</style>
+  <style>
+    h1 {
+      font-family: "Amatic SC", sans-serif
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body class="w3-black">
 <div class="w3-content w3-center">
-  <h1 class="w3-text-white w3-hide-small" style="font-size:100px"><b>La Bella <span class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></h1>
+  <a href="/">
+    <h1 class="w3-text-white w3-hide-small" style="font-size:100px"><b>La Bella <span
+        class="w3-text-green">It</span>al<span class="w3-text-red">ia</span></b></h1>
+  </a>
   <div th:if="${param.logout}">
     Has cerrado sesión.
   </div>
@@ -20,9 +30,11 @@
   <form th:action="@{/login}" method="post">
     <input class="w3-input w3-animate-input" type="text" name="username" placeholder="Usuario"/>
     <br>
-    <input class="w3-input w3-animate-input"  type="password" name="password" placeholder="Contraseña"/>
+    <input class="w3-input w3-animate-input" type="password" name="password"
+           placeholder="Contraseña"/>
     <br>
-    <div><input class="w3-button w3-red w3-block w3-hover-green" type="submit" value="Acceder"/></div>
+    <div><input class="w3-button w3-red w3-block w3-hover-green" type="submit" value="Acceder"/>
+    </div>
   </form>
 </div>
 </body>

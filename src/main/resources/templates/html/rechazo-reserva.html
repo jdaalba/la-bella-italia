@@ -20,6 +20,7 @@
       box-sizing: border-box;
       color: #74787e;;
       padding: 20px;
+
     }
 
     .contenedor {
@@ -44,23 +45,14 @@
   <div class="contenedor">
     <h1>Hola <span th:text="${name}">Juan</span></h1>
     <br>
+    <p th:each="p : ${parrafos}" th:text="${p}">Tu mensaje</p>
     <p>
-      Te confirmamos que tu reserva para
-      <span th:text="${numberOfPersons}" class="remarcado">1</span> el día
-      <span class="remarcado" th:text="${date}">06-06-06</span> a las
-      <span class="remarcado" th:text="${time}">06:06</span> se ha realizado correctamente.
+      Puedes volver a hacer una reserva desde <a th:attr="href=${direccion}">nuestra web</a> o
+      llamando al teléfono <span class="remarcado">666-666-666</span>
     </p>
     <p>
-      En caso de que quieras cambiar algo de tu reserva, puedes responder a este correo o llamarnos
-      al
-      <span class="remarcado">666-666-666</span>
+      Un saludo.
     </p>
-    <p>
-      Recuerda ser puntual.
-    </p>
-    <h3>
-      Nos vemos muy pronto
-    </h3>
   </div>
 </div>
 </body>
