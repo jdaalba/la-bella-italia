@@ -15,16 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class FileController {
 
-  private String FILE_PATH_ROOT = "src/main/resources/static/images/";
-
   @GetMapping("/images/{filename}")
   public ResponseEntity<byte[]> getImage(@PathVariable("filename") String filename) {
-    log.info("Buscando imagen {}", filename);
+    log.debug("Buscando imagen {}", filename);
     byte[] image = new byte[0];
     try {
+      String FILE_PATH_ROOT = "src/main/resources/static/images/";
       image = FileUtils.readFileToByteArray(new File(FILE_PATH_ROOT + filename));
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("Error recuperando una imagen: ", e);
     }
     return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
   }

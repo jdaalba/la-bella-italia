@@ -1,22 +1,33 @@
 version: '3'
 services:
-
   app:
-    build: .
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: app
+    hostname: app
     ports:
       - 8080:8080
     depends_on:
-      - app-mongo
-    links:
-      - app-mongo
-  app-mongo:
-    build: mongo
-    ports:
-      - 27017:27017
+      - mongodb
+    networks:
+      - my-network
+
+  mongodb:
+    image: mongo:4.0.7
+    container_name: "mongodb"
+    hostname: mongodb-host
     environment:
-      MONGO_INITDB_ROOT_USERNAME: user
-      MONGO_INITDB_ROOT_PASSWORD: pass
-      MONGO_INITDB_DATABASE: db
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=db
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network
     volumes:
-      - ./mongo/scripts/mongo-init.js:/docker-entrypoint-initdb.d/01_mongo-init.js:ro
-    container_name: app-mongo
+      - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/01_mongo-init.js:ro
+
+networks:
+  my-network:
+    driver: bridge
