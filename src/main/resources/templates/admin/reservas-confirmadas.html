@@ -78,7 +78,17 @@
     $("#fconf").prop("checked", data.confirmada);
   }
 
-  function borrarReserva(elem) {
+  function borrar(elem) {
+    $.ajax({
+      type: "DELETE",
+      url: "/reservas/" + elem.getAttribute('id-reserva'),
+      success: function () {
+        loadDoc("/reservas/confirmadas");
+      },
+      error: function () {
+        alert("Reserva no encontrada")
+      },
+    })
   }
 </script>
 <div class="w3-row">
@@ -124,7 +134,7 @@
 <br/>
 <div th:if="${last} > 1" class="w3-content">
   <div class="w3-bar w3-center">
-    <button th:each="i : ${#numbers.sequence(0, last, 1)}"
+    <button th:each="i : ${#numbers.sequence(0, last - 1, 1)}"
             th:class="${i == current} ? 'w3-bar-item w3-button w3-blue' : 'w3-bar-item w3-button'"
             th:text="${i + 1}" th:attr="pag=${i}" onclick="saltaPaginaConf(this)"></button>
   </div>
