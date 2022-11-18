@@ -36,6 +36,11 @@ public record ReservaServiceImpl(
   }
 
   @Override
+  public void borrar(String id) {
+    repository.delete(repository.findById(id).orElseThrow());
+  }
+
+  @Override
   public Page<Reserva> buscarPendientesDeConfirmar(int pagina) {
     return repository.findAllByConfirmadaFalse(Pageable.ofSize(10).withPage(pagina));
   }

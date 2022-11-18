@@ -9,9 +9,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,7 +45,7 @@ public record ReservasController(ReservaService service) {
     final var page = service.buscarPendientesDeConfirmar(pagina);
     model.addAttribute("reservas", page.getContent());
     model.addAttribute("current", pagina);
-    model.addAttribute("last", page.getTotalPages() - 1);
+    model.addAttribute("last", page.getTotalPages());
     return "admin/reservas-pendientes.html";
   }
 
@@ -58,7 +60,7 @@ public record ReservasController(ReservaService service) {
     model.addAttribute("reservas", page.map(ReservaDtoMapper.INSTACE::from).getContent());
     model.addAttribute("current", pagina);
     model.addAttribute("dia", dia);
-    model.addAttribute("last", page.getTotalPages() - 1);
+    model.addAttribute("last", page.getTotalPages());
     model.addAttribute("fecha", LocalDateTime.now());
     return "admin/reservas-confirmadas.html";
   }
@@ -68,6 +70,14 @@ public record ReservasController(ReservaService service) {
   public Reserva buscarReserva(@PathVariable("id") String id) {
     log.info("Buscando reserva con id '{}'", id);
     return service.buscar(id);
+  }
+
+  @DeleteMapping("/{id}")
+  @ResponseBody
+  public ResponseEntity<Void> borrarReserva(@PathVariable("id") String id) {
+    log.info("Borrando reserva con id '{}'", id);
+    service.borrar(id);
+    return ResponseEntity.noContent().build();
   }
 
   @PutMapping("/{id}")

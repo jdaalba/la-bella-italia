@@ -8,6 +8,8 @@ public interface ReservaService {
 
   void salvar(Reserva reserva);
 
+  void borrar(String id);
+
   Page<Reserva> buscarPendientesDeConfirmar(int pagina);
 
   Page<Reserva> buscar(LocalDate dia, int pagina);
