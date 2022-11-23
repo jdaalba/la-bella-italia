@@ -28,6 +28,9 @@ services:
     volumes:
       - ./mongo/mongo-init.js:/docker-entrypoint-initdb.d/01_mongo-init.js:ro
 
+volumes:
+  maven-repo:
+
 networks:
   my-network:
     driver: bridge
