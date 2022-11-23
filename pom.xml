@@ -9,11 +9,11 @@
     <version>2.7.1</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.example</groupId>
-  <artifactId>serving-web-content-complete</artifactId>
+  <groupId>com.jdaalba</groupId>
+  <artifactId>la-bella-italia</artifactId>
   <version>1.0.0</version>
-  <name>serving-web-content-complete</name>
-  <description>Demo project for Spring Boot</description>
+  <name>la-bella-italia</name>
+  <description>Proyecto de fin de ciclo para DAW en el instituto FOC</description>
   <properties>
     <java.version>17</java.version>
   </properties>
